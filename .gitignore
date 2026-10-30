@@ -34,4 +34,4 @@ step2/chunks/
 step2/results/
 step2/claims/
 step2/rfam/
-step3/
+# step3/ holds its runner; its data is caught by the *.csv rule above

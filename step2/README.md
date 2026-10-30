@@ -1,15 +1,17 @@
-# step2 -- features + rod classification  (RUNNING)
+# step2 -- features + rod classification
 
-The folding pipeline over every deduped unclassified circle: getorf, RNAfold
+The folding pipeline over every in-range unclassified circle: getorf, RNAfold
 `--circ`, cmsearch against dvr5 + the combined Rfam ribozyme library, then the
-`rodnotrod` model. Driven by `../step2_run.sh`.
+`rodnotrod` model. Chunked by `make_chunks.sh`, driven by `../step2_run.sh`.
 
-    input   545,483,299 circles (03_dedup/dedup_le6000.fa)
-    layout  320 chunks of ~1,704,636 records
+    input   02_length_split/in_range/*.fa  (200 to 6000 nt)
+    layout  chunks of 1,704,636 records, count follows the input size
     config  16 concurrent workers x -j30 and --cmsearch-cpu 30 (= all 480 cores)
-    started 2026-10-02 23:52 UTC
-    rate    ~3,654 rows/s measured
-    ETA     ~2026-10-04 17:00 UTC
+
+The October 2026 run read a deduplicated set of 545,483,299 circles as 320
+chunks and took ~65.7 h. Deduplication has since been dropped, so a rerun
+reads more records and produces more chunks. The chunk count is not
+load-bearing: the runners screen whatever is in `chunks/`.
 
 ## Items
 

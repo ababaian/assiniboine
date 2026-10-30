@@ -1,5 +1,10 @@
 # Step 2 — rod screen: method and caveats
 
+> This describes the October 2026 run, which is what the published data in
+> this prefix came from. The pipeline has since changed: deduplication was
+> dropped, and a 200 nt floor was added to the length filter. See the repo
+> README for the current method.
+
 **Purpose.** Screen every circle that Kraken2 could not name for rod-like
 structure and self-cleaving ribozymes — the viroid / ribozyvirus / obelisk
 signature.

@@ -40,5 +40,9 @@ Not in this bundle -- 174 GB. On watson:
     /watson/rnalab/dzhu/k2-circ-runs/01_kraken_filter/reports/        # the 21 unmerged reports
     /watson/rnalab/dzhu/k2-circ-runs/01_kraken_filter/README.md       # full method + benchmarks
 
-A deduplicated, length-filtered version of the kept circles (545,483,299
-records) lives in `../../03_dedup/` and is what the screening actually reads.
+The screening reads a length-filtered version of these circles, 200 to 6000 nt,
+produced by `../../02_length_split/`. The October 2026 run additionally
+deduplicated it to 545,483,299 records; that stage has since been dropped,
+because assembly does not fix where a circle starts so exact matching missed
+most duplicates, and because one record per circle per run is the unit of
+observation worth keeping.
