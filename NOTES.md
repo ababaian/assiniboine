@@ -17,11 +17,8 @@ watson, which is gitignored.
     git show 29946fe --stat
     git checkout 29946fe          # or: git worktree add ../k2-oct2026 29946fe
 
-It differed from the current pipeline in four ways, each now reasoned out in
-the relevant stage README: no terminal-overlap trim, so every length in its
-output is 30 nt too long and the ~37% of records that are not circles were
-folded as if they were; an exact-deduplication stage that removed 8.28%; no
-lower length bound; and the completion-gate and chunking defects listed below.
+It predates the overlap trim, the 200 nt floor and the removal of the dedup
+stage, so its outputs carry the defects listed below.
 
 ### Result
 

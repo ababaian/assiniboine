@@ -130,25 +130,3 @@ Start with `shortlist.csv`. The per-chunk result files, 129 GB and all 545M
 rows, are not public: they are in `s3://petadex-tmp/circs-results/`. Local
 copies of the run's output tables are in `run_outputs_2026-10/` on watson,
 which is gitignored.
-
-## What changed since the October run
-
-The pipeline above is not the one that produced the numbers in
-[Result](#result). Reasoning for each is in the relevant stage README.
-
-- **Terminal overlap trimmed and non-circles separated, as new stage 2.** The
-  untrimmed 30-nt duplication inflated every length and put a spurious tandem
-  repeat in every fold, and about 37% of records are not circles at all but
-  linear contigs capped by an inverted repeat, which that run folded as
-  circles anyway; see
-  [`analysis/circular_overlap/`](analysis/circular_overlap/).
-- **Deduplication dropped.** Exact matching caught only 8.28% because assembly
-  does not fix where a circle starts, and duplication is signal anyway, since
-  one record per circle per run is the input's own unit.
-- **A 200 nt floor added.** Against the October output it would have cut
-  49.51% of rod calls but only 1.46% of the ribozyme-bearing ones and nothing
-  from the shortlist.
-- **Reporting and safety fixes.** The completion gate counted stale `.done`
-  markers so an old run could declare a new one complete, chunk creation was
-  never scripted, and the shortlist's tier 2 is truncated to 2,000 of a 13,399
-  pool.
