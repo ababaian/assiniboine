@@ -97,8 +97,8 @@ Two prerequisites are not in this repo:
 - **`Lebowski/`**, the upstream pipeline, the trained `rodnotrod` model and
   the CM files, which only stage 4 needs. Fetch it to the repo root:
 
-      aws s3 cp s3://petadex/circs-results/lebowski_20261002.tar.gz . --no-sign-request
-      aws s3 cp s3://petadex/circs-results/MANIFEST.md5 . --no-sign-request
+      aws s3 cp s3://petadex/circs-results/model/lebowski_20261002.tar.gz . --no-sign-request
+      aws s3 cp s3://petadex/circs-results/model/MANIFEST.md5 . --no-sign-request
       tar xzf lebowski_20261002.tar.gz
       (cd Lebowski && md5sum -c ../MANIFEST.md5)
 
