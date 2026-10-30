@@ -131,11 +131,12 @@ any result.
 
 Nothing in this repo. Public, no credentials needed:
 
-    s3://petadex/circs-results/                    # stage 1 outputs
-    s3://petadex/circs-results/step2_rod_screen/   # screen and results outputs
+    s3://petadex/circs-results/model/                      # pipeline + model
+    s3://petadex/circs-results/run-2026-10/kraken_filter/  # stage 1 outputs
+    s3://petadex/circs-results/run-2026-10/rod_screen/     # screen + result tables
 
-    aws s3 ls s3://petadex/circs-results/ --no-sign-request
-    curl -O https://petadex.s3.amazonaws.com/circs-results/step2_rod_screen/shortlist.csv
+    aws s3 ls s3://petadex/circs-results/ --recursive --no-sign-request
+    curl -O https://petadex.s3.amazonaws.com/circs-results/run-2026-10/rod_screen/shortlist.csv
 
 Start with `shortlist.csv`. The per-chunk result files, 129 GB and all 545M
 rows, are not public: they are in `s3://petadex-tmp/circs-results/`. Local

@@ -7,9 +7,9 @@ current README no longer describes.
 
 The screen was run once end to end, 2026-10-02 to 2026-10-05, with an earlier
 version of this pipeline. Its outputs are in
-`s3://petadex/circs-results/`, and local copies of the tables, per-chunk logs,
-taxonomy reports and run accession lists are in `run_outputs_2026-10/` on
-watson, which is gitignored.
+`s3://petadex/circs-results/run-2026-10/`, and local copies of the tables,
+per-chunk logs, taxonomy reports and run accession lists are in
+`run_outputs_2026-10/` on watson, which is gitignored.
 
 **The pipeline that produced it is tagged `run-2026-10`** (commit `29946fe`,
 the first commit on `main`). To read or run it:
