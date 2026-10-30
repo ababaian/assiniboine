@@ -24,7 +24,6 @@ accident.
 | 5 | [`05_results/`](05_results/) | reduce to the rod, ribozyme and shortlist tables |
 | | [`env/`](env/) | the conda environment |
 | | [`analysis/`](analysis/) | side analyses, not part of the screen |
-| | [`archive/`](archive/) | contains previous iterations of this pipeline |
 
 Each stage folder has a README with its counts, method and gotchas.
 
@@ -34,9 +33,10 @@ unclassified, which means core_nt could not name it and not that it is novel.
 **2. Circular overlap.** Logan assembles at k=31, so a closed circle is
 written with its first 30 nt repeated as its last 30; trimming that corrects
 both the inflated length and the spurious tandem repeat `--circ` would fold
-into the junction. It also parks the roughly 37% of records whose self-link is
-to their own reverse complement, which are inverted-repeat-capped linear
-contigs rather than circles.
+into the junction. It also labels how each record closes: the roughly 37%
+whose self-link is to their own reverse complement are linear contigs capped by
+an inverted repeat rather than circles, and they are labelled rather than
+withheld, so everything reaches the screen.
 
 **3. Length filter.** Keep 200 to 6000 nt: the ceiling because RNAfold stops
 rather than skips on an oversized circle and silently truncates the rest of its
@@ -115,19 +115,17 @@ Two prerequisites are not in this repo:
 
 ## Result
 
-From the October 2026 run, which used the archived pipeline rather than the one
-above:
+From the October 2026 run, which used an earlier version of this pipeline,
+tagged `run-2026-10`:
 
 900,042,456 circles, 595,006,157 unnamed by core_nt, 545,483,299 screened,
 **25,222,331 called rod**. Of those, **46,432 carry a ribozyme** and **16,757
 carry ribozymes on both strands**. The shortlist is 2,056 rows, whose
 top tier is 56 circles.
 
-Caveats that qualify those numbers are in
-[`archive/original_pipeline/step2/share/METHOD.md`](archive/original_pipeline/step2/share/METHOD.md)
-and
-[`archive/original_pipeline/01_kraken_filter/share/METHOD.md`](archive/original_pipeline/01_kraken_filter/share/METHOD.md).
-Read them before quoting any result.
+The caveats that qualify those numbers, and the defects carried into that
+run's output tables, are in [`NOTES.md`](NOTES.md). Read them before quoting
+any result.
 
 ## Data
 
@@ -141,27 +139,5 @@ Nothing in this repo. Public, no credentials needed:
 
 Start with `shortlist.csv`. The per-chunk result files, 129 GB and all 545M
 rows, are not public: they are in `s3://petadex-tmp/circs-results/`. Local
-copies of the run's output tables are in
-[`archive/original_pipeline/_run_outputs/step3/`](archive/).
-
-## What changed since the October run
-
-The pipeline above is not the one that produced the numbers in
-[Result](#result). Reasoning for each is in the relevant stage README.
-
-- **Terminal overlap trimmed and non-circles separated, as new stage 2.** The
-  untrimmed 30-nt duplication inflated every length and put a spurious tandem
-  repeat in every fold, and about 37% of records are not circles at all but
-  linear contigs capped by an inverted repeat, which that run folded as
-  circles anyway; see
-  [`analysis/circular_overlap/`](analysis/circular_overlap/).
-- **Deduplication dropped.** Exact matching caught only 8.28% because assembly
-  does not fix where a circle starts, and duplication is signal anyway, since
-  one record per circle per run is the input's own unit.
-- **A 200 nt floor added.** Against the October output it would have cut
-  49.51% of rod calls but only 1.46% of the ribozyme-bearing ones and nothing
-  from the shortlist.
-- **Reporting and safety fixes.** The completion gate counted stale `.done`
-  markers so an old run could declare a new one complete, chunk creation was
-  never scripted, and the shortlist's tier 2 is truncated to 2,000 of a 13,399
-  pool.
+copies of the run's output tables are in `run_outputs_2026-10/` on watson,
+which is gitignored.

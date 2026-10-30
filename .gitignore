@@ -39,9 +39,7 @@ Lebowski/
 01_kraken_filter/claims/
 01_kraken_filter/reports/
 01_kraken_filter/counts/
-02_circular_overlap/circular/
-02_circular_overlap/hairpin/
-02_circular_overlap/unmatched/
+02_circular_overlap/labelled/
 03_length_filter/lt200/
 03_length_filter/in_range/
 03_length_filter/gt6000/
@@ -52,7 +50,7 @@ Lebowski/
 04_rod_screen/claims/
 04_rod_screen/rfam/
 # the October run's outputs, kept on disk but not in git
-archive/original_pipeline/_run_outputs/
+run_outputs_2026-10/
 # scratch
 05_benchmarks/
 scratch/
