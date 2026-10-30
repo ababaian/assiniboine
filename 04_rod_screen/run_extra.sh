@@ -33,7 +33,7 @@ done
 if [ -n "$missing" ]; then
     printf 'missing from Lebowski:%b\n' "$missing"
     echo "fetch it to the repo root:"
-    echo "  aws s3 cp s3://petadex-tmp/lebowski/lebowski_20261002.tar.gz . && tar xzf lebowski_20261002.tar.gz"
+    echo "  aws s3 cp s3://petadex/circs-results/lebowski_20261002.tar.gz . --no-sign-request && tar xzf lebowski_20261002.tar.gz"
     exit 1
 fi
 
