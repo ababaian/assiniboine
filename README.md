@@ -34,10 +34,10 @@ unclassified, which means core_nt could not name it and not that it is novel.
 **2. Circular overlap.** Logan assembles at k=31, so a closed circle is
 written with its first 30 nt repeated as its last 30; trimming that corrects
 both the inflated length and the spurious tandem repeat `--circ` would fold
-into the junction. It also labels how each record closes, because the roughly
-37% whose self-link is to their own reverse complement are inverted-repeat-capped
-linear contigs rather than circles; they are labelled, not withheld, and
-everything goes on to the screen.
+into the junction. It also labels how each record closes: the roughly 37%
+whose self-link is to their own reverse complement are linear contigs capped by
+an inverted repeat rather than circles, and they are labelled rather than
+withheld, so everything reaches the screen.
 
 **3. Length filter.** Keep 200 to 6000 nt: the ceiling because RNAfold stops
 rather than skips on an oversized circle and silently truncates the rest of its
@@ -140,11 +140,11 @@ copies of the run's output tables are in
 The pipeline above is not the one that produced the numbers in
 [Result](#result). Reasoning for each is in the relevant stage README.
 
-- **Terminal overlap trimmed and closure labelled, as new stage 2.** The
+- **Terminal overlap trimmed and non-circles separated, as new stage 2.** The
   untrimmed 30-nt duplication inflated every length and put a spurious tandem
-  repeat in every fold, and about 37% of records turn out not to be circles at
-  all but linear contigs capped by an inverted repeat, now carried as a label
-  on every record rather than silently folded as circles; see
+  repeat in every fold, and about 37% of records are not circles at all but
+  linear contigs capped by an inverted repeat, which that run folded as
+  circles anyway; see
   [`analysis/circular_overlap/`](analysis/circular_overlap/).
 - **Deduplication dropped.** Exact matching caught only 8.28% because assembly
   does not fix where a circle starts, and duplication is signal anyway, since
