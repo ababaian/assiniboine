@@ -5,6 +5,11 @@ out-of-range records are written out so either bound can be revisited without
 re-running stage 1.
 
     in                     02_circular_overlap/labelled/  (all classes)
+
+Done with `seqkit seq -m/-M`, which are inclusive on both bounds. `-w 0` is
+required: seqkit wraps at 60 columns by default and the chunker in stage 4
+splits on a fixed line count, so a wrapped FASTA would misalign every record
+after the first.
     lt200                  -> parked, below any known viroid-like agent
     in_range               -> goes on to the rod screen
     gt6000                 -> parked, RNAfold cannot address these
