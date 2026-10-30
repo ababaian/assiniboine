@@ -19,11 +19,11 @@ cd "$ROOT" || exit 1
 MIN=200
 MAX=6000
 
-mkdir -p lt200 in_range gt6000
+mkdir -p 03_length_filter/lt200 03_length_filter/in_range 03_length_filter/gt6000
 
-ls unclassified/unclass_part_*.fa | xargs -P12 -I{} sh -c '
+ls 02_circular_overlap/circular/*.fa | xargs -P12 -I{} sh -c '
   b=$(basename "$1" .fa)
-  awk -v s="lt200/$b.fa" -v u="in_range/$b.fa" -v o="gt6000/$b.fa" \
+  awk -v s="03_length_filter/lt200/$b.fa" -v u="03_length_filter/in_range/$b.fa" -v o="03_length_filter/gt6000/$b.fa" \
       -v min='"$MIN"' -v max='"$MAX"' "
     function flush(){ if (!h) return
       if (len < min)      print rec > s
@@ -34,18 +34,18 @@ ls unclassified/unclass_part_*.fa | xargs -P12 -I{} sh -c '
     END  { flush() }" "$1"
 ' _ {}
 
-n_lt=$(cat lt200/*.fa 2>/dev/null | grep -c '^>')
-n_in=$(cat in_range/*.fa 2>/dev/null | grep -c '^>')
-n_gt=$(cat gt6000/*.fa 2>/dev/null | grep -c '^>')
+n_lt=$(cat 03_length_filter/lt200/*.fa 2>/dev/null | grep -c '^>')
+n_in=$(cat 03_length_filter/in_range/*.fa 2>/dev/null | grep -c '^>')
+n_gt=$(cat 03_length_filter/gt6000/*.fa 2>/dev/null | grep -c '^>')
 total=$(( n_lt + n_in + n_gt ))
 
 {
   echo "Length filter  ($(date -u))"
   echo "range kept: ${MIN}-${MAX} nt inclusive"
   printf "under %-5d %12d\n" "$MIN" "$n_lt"
-  printf "in range    %12d  <- goes on to stage 3\n" "$n_in"
+  printf "in range    %12d  <- goes on to the rod screen\n" "$n_in"
   printf "over  %-5d %12d\n" "$MAX" "$n_gt"
   printf "total       %12d\n" "$total"
-} > SUMMARY_lenfilter.txt
-cat SUMMARY_lenfilter.txt
-touch LENFILTER.DONE
+} > 03_length_filter/SUMMARY_lenfilter.txt
+cat 03_length_filter/SUMMARY_lenfilter.txt
+touch 03_length_filter/LENFILTER.DONE

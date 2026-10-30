@@ -26,12 +26,30 @@
 *.runs
 *.done
 *.log
+*.raw
 # upstream collaborator code + trained model: provenance is theirs, not ours
 Lebowski/
+# stage working directories and bulk outputs
+01_kraken_filter/parts/
+01_kraken_filter/unclassified/
+01_kraken_filter/logs/
+01_kraken_filter/claims/
+01_kraken_filter/reports/
+01_kraken_filter/counts/
+02_circular_overlap/circular/
+02_circular_overlap/hairpin/
+02_circular_overlap/unmatched/
+03_length_filter/lt200/
+03_length_filter/in_range/
+03_length_filter/gt6000/
+03_length_filter/lenhist/
+04_rod_screen/chunks/
+04_rod_screen/results/
+04_rod_screen/logs/
+04_rod_screen/claims/
+04_rod_screen/rfam/
+# the October run's outputs, kept on disk but not in git
+Archive/Pipeline/_run_outputs/
 # scratch
 05_benchmarks/
-step2/chunks/
-step2/results/
-step2/claims/
-step2/rfam/
-# step3/ holds its runner; its data is caught by the *.csv rule above
+scratch/

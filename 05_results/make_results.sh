@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Stage 5: reduce the per-chunk result CSVs to the published tables.
 #
-#   step2/results/chunk_*.csv   one row per screened circle, 48 columns
+#   04_rod_screen/results/chunk_*.csv   one row per screened circle, 48 columns
 #     -> rod_all.csv            predicted_class == rod
 #     -> rod_with_ribozyme.csv  rod AND n_ribozymes >= 1
 #     -> shortlist.csv          ranked candidates, two tiers
@@ -16,24 +16,24 @@
 set -uo pipefail
 ROOT=/watson/rnalab/dzhu/k2-circ-runs
 cd "$ROOT" || exit 1
-OUT=step3
+OUT=05_results
 TOP_N=2000          # size of tier 2; the October run took 2000 of 13,399
 
-nres=$(ls step2/results/chunk_*.csv 2>/dev/null | wc -l)
-[ "$nres" -gt 0 ] || { echo "no CSVs in step2/results/; run step2_run.sh first"; exit 1; }
+nres=$(ls 04_rod_screen/results/chunk_*.csv 2>/dev/null | wc -l)
+[ "$nres" -gt 0 ] || { echo "no CSVs in 04_rod_screen/results/; run 04_rod_screen/run.sh first"; exit 1; }
 mkdir -p "$OUT"
 
 # Refuse to run against an incomplete screen: the gate that proves no chunk
-# was silently truncated lives in step2_run.sh.
-if [ ! -e STEP2.DONE ]; then
-    echo "STEP2.DONE is absent; the screen is incomplete or unverified"
-    echo "finish step2_run.sh before reducing its output"
+# was silently truncated lives in 04_rod_screen/run.sh.
+if [ ! -e 04_rod_screen/SCREEN.DONE ]; then
+    echo "04_rod_screen/SCREEN.DONE is absent; the screen is incomplete or unverified"
+    echo "finish 04_rod_screen/run.sh before reducing its output"
     exit 1
 fi
 
 echo "[1/3] rod calls from $nres chunk CSVs"
-head -1 step2/results/chunk_000.csv > "$OUT/rod_all.csv"
-awk -F, 'FNR>1 && $3=="rod"' step2/results/chunk_*.csv >> "$OUT/rod_all.csv"
+head -1 04_rod_screen/results/chunk_000.csv > "$OUT/rod_all.csv"
+awk -F, 'FNR>1 && $3=="rod"' 04_rod_screen/results/chunk_*.csv >> "$OUT/rod_all.csv"
 
 echo "[2/3] rod calls carrying at least one ribozyme"
 head -1 "$OUT/rod_all.csv" > "$OUT/rod_with_ribozyme.csv"
@@ -79,5 +79,5 @@ PY
   echo "rod:                  $(( $(wc -l < "$OUT/rod_all.csv") - 1 ))"
   echo "rod with ribozyme:    $(( $(wc -l < "$OUT/rod_with_ribozyme.csv") - 1 ))"
   echo "shortlist:            $(( $(wc -l < "$OUT/shortlist.csv") - 1 ))"
-} > SUMMARY_step3.txt
-cat SUMMARY_step3.txt
+} > 05_results/SUMMARY_results.txt
+cat 05_results/SUMMARY_results.txt

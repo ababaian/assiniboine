@@ -1,4 +1,4 @@
-# 02_length_split -- keep 200 to 6000 nt
+# 03_length_filter -- keep 200 to 6000 nt
 
 Two bounds, inclusive, for two different reasons. Nothing is deleted: the
 out-of-range records are written out so either bound can be revisited without

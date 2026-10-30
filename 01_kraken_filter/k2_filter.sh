@@ -14,27 +14,27 @@ set -uo pipefail
 cd /watson/rnalab/dzhu/k2-circ-runs
 export PATH=/watson/rnalab/dzhu/.conda/envs/k2workflow/bin:$PATH
 DB=/watson/rnalab/js/resource_files/k2_core_nt
-SRC=selfloops.v1.1.fa.zst
+SRC=00_source/selfloops.v1.1.fa.zst
 LINES_PER_PART=90000000        # 45M records -> 20 parts
 NPROC=10
 THREADS=32
 CONF=0.1
 
-mkdir -p parts unclassified logs
-rm -f K2_FILTER.DONE K2_FILTER.FAILED
+mkdir -p 01_kraken_filter/parts 01_kraken_filter/unclassified 01_kraken_filter/logs
+rm -f 01_kraken_filter/K2_FILTER.DONE 01_kraken_filter/K2_FILTER.FAILED
 say(){ echo "[$(date -u +%H:%M:%S)] $*"; }
 
 # ---- stage 1: decompress + split ------------------------------------------
-if [ ! -e parts/.SPLIT_DONE ]; then
+if [ ! -e 01_kraken_filter/parts/.SPLIT_DONE ]; then
     say "stage 1: decompressing and splitting $SRC"
-    rm -f parts/part_*
-    zstd -dc "$SRC" | split -a3 -d -l $LINES_PER_PART - parts/part_
+    rm -f 01_kraken_filter/parts/part_*
+    zstd -dc "$SRC" | split -a3 -d -l $LINES_PER_PART - 01_kraken_filter/parts/part_
     st=("${PIPESTATUS[@]}")
     if [ "${st[0]}" != 0 ] || [ "${st[1]}" != 0 ]; then
-        say "FAILED: zstd=${st[0]} split=${st[1]}"; touch K2_FILTER.FAILED; exit 1
+        say "FAILED: zstd=${st[0]} split=${st[1]}"; touch 01_kraken_filter/K2_FILTER.FAILED; exit 1
     fi
-    touch parts/.SPLIT_DONE
-    say "stage 1 done: $(ls parts/part_* | wc -l) parts, $(du -sh parts | cut -f1)"
+    touch 01_kraken_filter/parts/.SPLIT_DONE
+    say "stage 1 done: $(ls 01_kraken_filter/parts/part_* | wc -l) parts, $(du -sh 01_kraken_filter/parts | cut -f1)"
 else
     say "stage 1 already done, skipping"
 fi
@@ -47,17 +47,17 @@ cat $DB/taxo.k2d > /dev/null
 
 classify_one() {
     part="$1"; b=$(basename "$part")
-    [ -e "logs/$b.done" ] && { echo "[skip] $b already done"; return 0; }
+    [ -e "01_kraken_filter/logs/$b.done" ] && { echo "[skip] $b already done"; return 0; }
     kraken2 --db "$DB" --memory-mapping --threads "$THREADS" \
             --confidence "$CONF" \
-            --unclassified-out "unclassified/unclass_$b.fa" \
+            --unclassified-out "01_kraken_filter/unclassified/unclass_$b.fa" \
             --output /dev/null \
-            --report "logs/report_$b.txt" \
-            "$part" > "logs/$b.log" 2>&1
+            --report "01_kraken_filter/logs/report_$b.txt" \
+            "$part" > "01_kraken_filter/logs/$b.log" 2>&1
     rc=$?
     if [ $rc -eq 0 ]; then
-        touch "logs/$b.done"; rm -f "$part"
-        echo "[ok] $b $(grep -o '[0-9]* sequences unclassified.*' logs/$b.log | head -1)"
+        touch "01_kraken_filter/logs/$b.done"; rm -f "$part"
+        echo "[ok] $b $(grep -o '[0-9]* sequences unclassified.*' 01_kraken_filter/logs/$b.log | head -1)"
     else
         echo "[FAIL rc=$rc] $b"; return $rc
     fi
@@ -65,7 +65,7 @@ classify_one() {
 export -f classify_one; export DB THREADS CONF PATH
 
 say "stage 2: classifying with $NPROC x $THREADS threads"
-ls parts/part_* 2>/dev/null | xargs -P "$NPROC" -I{} bash -c 'classify_one "$@"' _ {}
+ls 01_kraken_filter/parts/part_* 2>/dev/null | xargs -P "$NPROC" -I{} bash -c 'classify_one "$@"' _ {}
 rc=$?
 
 # ---- stage 3: tally -------------------------------------------------------
@@ -74,13 +74,13 @@ rc=$?
   echo "db=$DB  confidence=$CONF  source=$SRC"
   awk '/sequences \(/{s+=$1} /sequences classified/{c+=$1} /sequences unclassified/{u+=$1}
        END{printf "processed   %d\nclassified  %d (%.2f%%)\nunclassified %d (%.2f%%)\n",
-                  s,c,100*c/s,u,100*u/s}' logs/part_*.log
-  echo "unclassified FASTA: $(du -sh unclassified | cut -f1) in $(ls unclassified/*.fa 2>/dev/null | wc -l) files"
-} > SUMMARY_k2_filter.txt 2>&1
-cat SUMMARY_k2_filter.txt
+                  s,c,100*c/s,u,100*u/s}' 01_kraken_filter/logs/part_*.log
+  echo "unclassified FASTA: $(du -sh 01_kraken_filter/unclassified | cut -f1) in $(ls 01_kraken_filter/unclassified/*.fa 2>/dev/null | wc -l) files"
+} > 01_kraken_filter/SUMMARY_k2_filter.txt 2>&1
+cat 01_kraken_filter/SUMMARY_k2_filter.txt
 
-if [ "$rc" -eq 0 ] && [ "$(ls parts/part_* 2>/dev/null | wc -l)" -eq 0 ]; then
-    touch K2_FILTER.DONE; say "ALL DONE"
+if [ "$rc" -eq 0 ] && [ "$(ls 01_kraken_filter/parts/part_* 2>/dev/null | wc -l)" -eq 0 ]; then
+    touch 01_kraken_filter/K2_FILTER.DONE; say "ALL DONE"
 else
-    touch K2_FILTER.FAILED; say "finished with failures (rc=$rc); re-run to resume"
+    touch 01_kraken_filter/K2_FILTER.FAILED; say "finished with failures (rc=$rc); re-run to resume"
 fi
