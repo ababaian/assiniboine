@@ -7,8 +7,12 @@ Superseded work, kept because the published results depend on it.
 The pipeline as it stood for the October 2026 run, verbatim at commit
 `2773b5d`. This is what produced everything in
 `s3://petadex/circs-results/`, so it is the method record for that data and
-should not be edited. Its own top-level doc is `PIPELINE_README.md`, renamed
-from `README.md` so it does not present itself as this folder's index.
+should not be edited.
+
+`original_pipeline/README.md` is the guide to it: the same shape as the main
+README, plus a tracker of how the record count falls at every step from
+900,042,456 down to the 2,056-row shortlist. `PIPELINE_README.md` is the
+original top-level doc as written at the time.
 
 It differs from the current pipeline in three ways:
 
