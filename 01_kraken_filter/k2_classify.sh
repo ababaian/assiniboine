@@ -20,17 +20,17 @@ split_alive(){ pgrep -f 'split -a3 -d -l 90000000' > /dev/null; }
 
 classify_one(){
     part="$1"; b=$(basename "$part")
-    [ -e "01_kraken_filter/01_kraken_filter/logs/$b.done" ] && return 0
+    [ -e "01_kraken_filter/logs/$b.done" ] && return 0
     mkdir "01_kraken_filter/claims/$b" 2>/dev/null || return 0          # someone else has it
     say "start $b"
     kraken2 --db "$DB" --memory-mapping --threads "$THREADS" --confidence "$CONF" \
             --unclassified-out "01_kraken_filter/unclassified/unclass_$b.fa" \
             --output /dev/null --report "01_kraken_filter/logs/report_$b.txt" \
-            "$part" > "01_kraken_filter/01_kraken_filter/01_kraken_filter/logs/$b.log" 2>&1
+            "$part" > "01_kraken_filter/logs/$b.log" 2>&1
     rc=$?
     if [ $rc -eq 0 ]; then
-        touch "01_kraken_filter/01_kraken_filter/logs/$b.done"; rm -f "$part"
-        say "done  $b -- $(grep -o '[0-9]* sequences unclassified ([^)]*)' 01_kraken_filter/01_kraken_filter/logs/$b.log | head -1)"
+        touch "01_kraken_filter/logs/$b.done"; rm -f "$part"
+        say "done  $b -- $(grep -o '[0-9]* sequences unclassified ([^)]*)' 01_kraken_filter/logs/$b.log | head -1)"
     else
         rmdir "01_kraken_filter/claims/$b" 2>/dev/null; say "FAIL  $b rc=$rc"
     fi
@@ -45,8 +45,8 @@ while :; do
     todo=()
     for p in "${all[@]:-}"; do
         [ -n "$p" ] || continue
-        [ -e "01_kraken_filter/01_kraken_filter/logs/$(basename "$p").done" ] && continue
-        [ -d "01_kraken_filter/01_kraken_filter/claims/$(basename "$p")" ] && continue
+        [ -e "01_kraken_filter/logs/$(basename "$p").done" ] && continue
+        [ -d "01_kraken_filter/claims/$(basename "$p")" ] && continue
         todo+=("$p")
     done
     if [ "${#todo[@]}" -gt 0 ]; then

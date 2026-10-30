@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 # Fetch the Logan v1.1 selfloops FASTA; detached so it survives terminal/VS Code reloads.
 set -uo pipefail
-cd /watson/rnalab/dzhu/k2-circ-runs || exit 1
+ROOT=/watson/rnalab/dzhu/k2-circ-runs
+# Stage 1 reads $ROOT/00_source/selfloops.v1.1.fa.zst, so the archive and its
+# DONE/FAILED markers belong here and not in the repo root.
+cd "$ROOT/00_source" || exit 1
 unset AWS_PROFILE
 SRC=s3://serratus-rayan/beetles/logan_feb12_run/circles-concat/selfloops.v1.1.fa.zst
 WANT=89258393740
