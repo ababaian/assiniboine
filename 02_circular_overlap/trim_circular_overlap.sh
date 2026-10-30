@@ -25,7 +25,6 @@
 #
 # Outputs, all of which go on to the length filter:
 #   labelled/*.fa         every record, trimmed where applicable, header tagged
-#   overlap_class.tsv     id, class, nt trimmed -- join to results by sample_name
 #   SUMMARY_overlap.txt   the counts
 #
 # The header gains `ovl:<class> trim:<nt>` after the existing fields. The
@@ -54,7 +53,7 @@ shift $((OPTIND - 1))
 IN=${1:--}
 
 AWK=$(command -v mawk || command -v awk)
-mkdir -p "$OUTDIR"/labelled "$OUTDIR"/class
+mkdir -p "$OUTDIR"/labelled
 
 # One record is two lines: header, then unwrapped sequence. Output keeps that
 # shape, because the chunker in ../04_rod_screen/ splits on a fixed line count
@@ -63,12 +62,10 @@ label_one() {
   f="$1"; k="$2"; outdir="$3"; awkbin="$4"
   if [ "$f" = "-" ]; then b=stdin; else b=$(basename "$f"); b=${b%.fa}; b=${b%.fasta}; fi
   LC_ALL=C "$awkbin" -v k="$k" -v tag="$b" \
-      -v fo="$outdir/labelled/$b.fa" \
-      -v ft="$outdir/class/$b.tsv" '
+      -v fo="$outdir/labelled/$b.fa" '
     /^>/ { hdr = $0; next }
     {
       s = toupper($0); n = length(s)
-      id = substr(hdr, 2); sub(/[ \t].*/, "", id)
 
       rev_link = (hdr ~ /L:\+:[0-9]+:-/ || hdr ~ /L:-:[0-9]+:\+/)
       fwd_link = (hdr ~ /L:-:[0-9]+:-/  && hdr ~ /L:\+:[0-9]+:\+/)
@@ -82,7 +79,6 @@ label_one() {
       }
 
       print hdr " ovl:" cls " trim:" cut "\n" out > fo
-      print id "\t" cls "\t" cut > ft
       c[cls]++
     }
     END { printf "%s\tcircular=%d\thairpin=%d\tunmatched=%d\n",
@@ -97,13 +93,11 @@ else
     label_one "$IN" "$K" "$OUTDIR" "$AWK"
 fi
 
-cat "$OUTDIR"/class/*.tsv > "$OUTDIR/overlap_class.tsv" 2>/dev/null
-rm -rf "$OUTDIR/class"
-
-n_tot=$(wc -l < "$OUTDIR/overlap_class.tsv")
-n_c=$(awk -F'\t' '$2=="circular"'  "$OUTDIR/overlap_class.tsv" | wc -l)
-n_h=$(awk -F'\t' '$2=="hairpin"'   "$OUTDIR/overlap_class.tsv" | wc -l)
-n_u=$(awk -F'\t' '$2=="unmatched"' "$OUTDIR/overlap_class.tsv" | wc -l)
+hdrs() { cat "$OUTDIR"/labelled/*.fa 2>/dev/null | grep '^>'; }
+n_tot=$(hdrs | wc -l)
+n_c=$(hdrs | grep -c 'ovl:circular')
+n_h=$(hdrs | grep -c 'ovl:hairpin')
+n_u=$(hdrs | grep -c 'ovl:unmatched')
 
 {
   echo "Circular overlap labelling  ($(date -u))"

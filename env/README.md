@@ -11,7 +11,14 @@
 | `ENV.DONE` | success marker |
 
 Contents: python 3.12, **scikit-learn pinned to 1.9.1**, pandas, numpy, scipy,
-zstandard, viennarna (RNAfold), infernal (cmsearch/cmpress), emboss (getorf).
+zstandard, viennarna (RNAfold), infernal (cmsearch/cmpress), emboss (getorf),
+seqkit (the length filter).
+
+Adding seqkit to an existing env is safe: a solve against bioconda pulls only
+seqkit plus certificate and openssl patch bumps, and leaves scikit-learn at
+1.9.1. Verify with `python -c "import sklearn; print(sklearn.__version__)"`
+after any change to this env, because the model pickle will silently behave
+differently under another version.
 
 The sklearn pin is not cosmetic: `Lebowski/rodnotrod_model/model.pkl` carries
 `_sklearn_version = 1.9.1`, and loading it under a different version risks

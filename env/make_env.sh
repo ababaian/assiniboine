@@ -12,7 +12,7 @@ rm -f "$ROOT/ENV.DONE" "$ROOT/ENV.FAILED"
 # failing touch flips the verdict and marks a good build failed.
 if conda create -y -n circpipe -c conda-forge -c bioconda \
        python=3.12 'scikit-learn==1.9.1' pandas numpy scipy zstandard \
-       viennarna infernal emboss; then
+       viennarna infernal emboss seqkit; then
     touch "$ROOT/ENV.DONE"
 else
     touch "$ROOT/ENV.FAILED"

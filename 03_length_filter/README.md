@@ -9,6 +9,11 @@ re-running stage 1.
     in_range               -> goes on to the rod screen
     gt6000                 -> parked, RNAfold cannot address these
 
+Done with `seqkit seq -m/-M`, which are inclusive on both bounds. `-w 0` is
+required: seqkit wraps at 60 columns by default and the chunker in stage 4
+splits on a fixed line count, so a wrapped FASTA would misalign every record
+after the first.
+
 The October 2026 run used a ceiling only, at 6000 nt, and kept 594,734,382
 records (99.95%), parking 271,775. The 200 nt floor was added afterwards, so
 there is no measured in-range count for it yet: the finest bucket in
@@ -29,8 +34,8 @@ length distributions, so the floor does not treat them alike. Measured on
 Circles are shorter to begin with and lose a further 30 nt to the overlap trim,
 so the floor removes nearly three quarters of them while removing a quarter of
 the hairpins. The screened set therefore comes out majority hairpin, which is
-worth knowing before reading any aggregate rate off it. `ovl:` in the header
-and `02_circular_overlap/overlap_class.tsv` are what to stratify on.
+worth knowing before reading any aggregate rate off it. The `ovl:` tag in each
+header is what to stratify on.
 
 ## Why the 6000 nt ceiling exists
 
