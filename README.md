@@ -22,6 +22,7 @@ accident.
 | 3 | [`03_length_filter/`](03_length_filter/) | keep 200 to 6000 nt |
 | 4 | [`04_rod_screen/`](04_rod_screen/) | fold, search for ribozymes, classify rod |
 | 5 | [`05_results/`](05_results/) | reduce to the rod, ribozyme and shortlist tables |
+| | [`model/`](model/) | the rodnotrod classifier: features, weights, S3 location |
 | | [`env/`](env/) | the conda environment |
 | | [`analysis/`](analysis/) | side analyses, not part of the screen |
 
