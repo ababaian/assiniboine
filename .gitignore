@@ -12,6 +12,9 @@
 !LENGTH_HIST.txt
 !.gitignore
 # never, under any circumstances
+# infrastructure planning: account ids, quotas and spend. Keep it out of git.
+EC2_PLAN.md
+**/EC2_PLAN.md
 *.fa
 *.fasta
 *.fa.*
