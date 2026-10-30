@@ -22,6 +22,21 @@ NPROC=16
 J=30
 say(){ echo "[$(date -u '+%m-%d %H:%M:%S')] $*"; }
 
+# Stage 4 is the only stage needing Lebowski, and it is not in the repo. Check
+# up front: without this the runner fails once per chunk with an opaque "No
+# such file or directory" and writes a MISMATCH line for every one of them.
+missing=""
+for p in "$LEB/Scripts/run_pipeline.py" "$LEB/rodnotrod_model/model.pkl" "$LEB/CM/dvr5.cm"; do
+    [ -e "$p" ] || missing="$missing\n  $p"
+done
+[ "$(ls "$LEB"/CM/RF*.cm 2>/dev/null | wc -l)" -gt 0 ] || missing="$missing\n  $LEB/CM/RF*.cm (18 Rfam models)"
+if [ -n "$missing" ]; then
+    printf 'missing from Lebowski:%b\n' "$missing"
+    echo "fetch it to the repo root:"
+    echo "  aws s3 cp s3://petadex/circs-results/model/lebowski_20261002.tar.gz . --no-sign-request && tar xzf lebowski_20261002.tar.gz"
+    exit 1
+fi
+
 process_chunk() {
     c="$1"; b=$(basename "$c")
     [ -e "04_rod_screen/logs/$b.done" ] && return 0

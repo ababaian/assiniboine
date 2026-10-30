@@ -94,10 +94,20 @@ the 340 GB index stays resident in page cache.
 
 Two prerequisites are not in this repo:
 
-- **`Lebowski/`**, the upstream pipeline (`run_pipeline.py`, `fold.py`,
-  `prop-orf.py`, `ribozyme_screen.py`, `circrna_classify.py`), the trained
-  `rodnotrod` model and the CM files. These come from a collaborator's drive
-  and are theirs to publish.
+- **`Lebowski/`**, the upstream pipeline, the trained `rodnotrod` model and
+  the CM files, which only stage 4 needs. Fetch it to the repo root:
+
+      aws s3 cp s3://petadex/circs-results/model/lebowski_20261002.tar.gz . --no-sign-request
+      aws s3 cp s3://petadex/circs-results/model/MANIFEST.md5 . --no-sign-request
+      tar xzf lebowski_20261002.tar.gz
+      (cd Lebowski && md5sum -c ../MANIFEST.md5)
+
+  Stage 4 reads exactly four things from it: `Scripts/run_pipeline.py` and its
+  sibling modules via `--lib-dir`, `rodnotrod_model/model.pkl` (md5
+  `b2e052da3e88d1802a5ed71ae34a8b9c`), `CM/dvr5.cm`, and the 18 `CM/RF*.cm`
+  Rfam models. `run.sh` checks for them before starting and refuses with a
+  pointer if any is missing. The code and model originate from a
+  collaborator's drive.
 - **a Kraken2 core_nt database.** Build one with `kraken2-build` or obtain a
   prebuilt index. The run used `/watson/rnalab/js/resource_files/k2_core_nt`,
   340 GB, built October 2025, which belongs to another user and is not ours to
