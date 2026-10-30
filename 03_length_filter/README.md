@@ -34,8 +34,8 @@ length distributions, so the floor does not treat them alike. Measured on
 Circles are shorter to begin with and lose a further 30 nt to the overlap trim,
 so the floor removes nearly three quarters of them while removing a quarter of
 the hairpins. The screened set therefore comes out majority hairpin, which is
-worth knowing before reading any aggregate rate off it. `ovl:` in the header
-and `02_circular_overlap/overlap_class.tsv` are what to stratify on.
+worth knowing before reading any aggregate rate off it. The `ovl:` tag in each
+header is what to stratify on.
 
 ## Why the 6000 nt ceiling exists
 
