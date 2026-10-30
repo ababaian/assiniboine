@@ -24,7 +24,7 @@ accident.
 | 5 | [`05_results/`](05_results/) | reduce to the rod, ribozyme and shortlist tables |
 | | [`env/`](env/) | the conda environment |
 | | [`analysis/`](analysis/) | side analyses, not part of the screen |
-| | [`Archive/`](Archive/) | contains previous iterations of this pipeline |
+| | [`archive/`](archive/) | contains previous iterations of this pipeline |
 
 Each stage folder has a README with its counts, method and gotchas.
 
@@ -118,9 +118,9 @@ carry ribozymes on both strands**. The published shortlist is 2,056 rows, whose
 top tier is 56 circles.
 
 Caveats that qualify those numbers are in
-[`Archive/Pipeline/step2/share/METHOD.md`](Archive/Pipeline/step2/share/METHOD.md)
+[`archive/original_pipeline/step2/share/METHOD.md`](archive/original_pipeline/step2/share/METHOD.md)
 and
-[`Archive/Pipeline/01_kraken_filter/share/METHOD.md`](Archive/Pipeline/01_kraken_filter/share/METHOD.md).
+[`archive/original_pipeline/01_kraken_filter/share/METHOD.md`](archive/original_pipeline/01_kraken_filter/share/METHOD.md).
 Read them before quoting any result.
 
 ## Data
@@ -136,7 +136,7 @@ Nothing in this repo. Public, no credentials needed:
 Start with `shortlist.csv`. The per-chunk result files, 129 GB and all 545M
 rows, are not public: they are in `s3://petadex-tmp/circs-results/`. Local
 copies of the published tables are in
-[`Archive/Pipeline/_run_outputs/step3/`](Archive/).
+[`archive/original_pipeline/_run_outputs/step3/`](archive/).
 
 ## What changed since the published run
 

@@ -1,13 +1,14 @@
-# Archive
+# archive
 
 Superseded work, kept because the published results depend on it.
 
-## Pipeline/
+## original_pipeline/
 
 The pipeline as it stood for the October 2026 run, verbatim at commit
 `2773b5d`. This is what produced everything in
 `s3://petadex/circs-results/`, so it is the method record for that data and
-should not be edited.
+should not be edited. Its own top-level doc is `PIPELINE_README.md`, renamed
+from `README.md` so it does not present itself as this folder's index.
 
 It differs from the current pipeline in three ways:
 
@@ -18,7 +19,7 @@ It differs from the current pipeline in three ways:
   longer than the molecule and the ~37% of records that are not circles were
   folded as if they were
 
-### Pipeline/_run_outputs/
+### original_pipeline/_run_outputs/
 
 What the October run actually produced, under the stage names it used at the
 time:
@@ -29,6 +30,7 @@ time:
 | `01_kraken_filter/` | 21 taxonomy reports, per-part logs, run accession lists, the published `share/` bundle |
 | `02_length_split/` | per-file length histogram shards and the cost table |
 | `03_dedup/` | the dedup counts and cost measurement |
+| `06_env/` | the conda build log and its success marker |
 | `step2/` | 320 per-chunk logs and the ribozyme candidate table |
 | `step3/` | the three published tables, the 320 per-chunk stats, and the 5,000-row rescore validation slice |
 
