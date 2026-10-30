@@ -141,34 +141,21 @@ copies of the run's output tables are in
 ## What changed since the October run
 
 The pipeline above is not the one that produced the numbers in
-[Result](#result). Four changes, each with its reasoning in the relevant stage
-README.
+[Result](#result). Reasoning for each is in the relevant stage README.
 
-**Terminal overlap trimmed, and non-circles separated.** New stage 2. The
-30-nt duplication was previously left in place, so every length in those tables
-is 30 nt too long and every fold included a spurious tandem repeat. Separately,
-about 37% of selfloops records turn out not to be circles at all: their
-self-link is to their own reverse complement, and the terminal 30-mer is a
-perfect inverted repeat in 100% of them. The October run folded all of those
-as circles. Measurements in
-[`analysis/circular_overlap/`](analysis/circular_overlap/).
-
-**Deduplication dropped.** The old stage 3 collapsed exact duplicate
-sequences, removing 8.28%. It is gone for two reasons. Duplication is signal:
-one record per circle per sequencing run is the input's own unit, and a circle
-recovered from 50 runs is 50 observations. And exact matching did not work
-anyway, because assembly does not fix where a circle starts, so the same
-circle usually differs by a rotation. Keeping the duplicates costs 3.4% more
-folding time, not 8.28%, because the duplicates were mostly short.
-
-**A 200 nt floor added.** Measured against the October output, it would have
-removed 12,487,733 of 25,222,331 rod calls (49.51%) but only 677 of the 46,432
-ribozyme-bearing ones (1.46%), and nothing from the shortlist, whose shortest
-row is 309 nt. Nothing was called rod below 150 nt at all. Those figures are on
-untrimmed lengths, so they shift once stage 2 is applied.
-
-**Three reporting and safety fixes.** The screen's completion gate counted
-every `.done` marker rather than those for the current chunk set, which let an
-earlier run's markers declare a new run complete; chunk creation was never
-scripted; and the shortlist's tier 2 is truncated to 2,000 rows out of a
-qualifying pool of 13,399, which the run's `DATA_README.md` does not say.
+- **Terminal overlap trimmed and non-circles separated, as new stage 2.** The
+  untrimmed 30-nt duplication inflated every length and put a spurious tandem
+  repeat in every fold, and about 37% of records are not circles at all but
+  linear contigs capped by an inverted repeat, which that run folded as
+  circles anyway; see
+  [`analysis/circular_overlap/`](analysis/circular_overlap/).
+- **Deduplication dropped.** Exact matching caught only 8.28% because assembly
+  does not fix where a circle starts, and duplication is signal anyway, since
+  one record per circle per run is the input's own unit.
+- **A 200 nt floor added.** Against the October output it would have cut
+  49.51% of rod calls but only 1.46% of the ribozyme-bearing ones and nothing
+  from the shortlist.
+- **Reporting and safety fixes.** The completion gate counted stale `.done`
+  markers so an old run could declare a new one complete, chunk creation was
+  never scripted, and the shortlist's tier 2 is truncated to 2,000 of a 13,399
+  pool.
