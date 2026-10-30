@@ -32,8 +32,8 @@ mkdir -p 03_length_filter/lt200 03_length_filter/in_range 03_length_filter/gt600
 # noise rather than a signal about the data.
 #
 # Three passes per file rather than one, which costs I/O the old single-pass
-# awk did not. That is a deliberate trade for legibility: the stage reads
-# ~170 G three times instead of once, against 65 h of folding downstream.
+# awk did not. That is a deliberate trade for legibility against the 65 h of
+# folding downstream.
 filter_one() {
     f="$1"; b=$(basename "$f" .fa)
     seqkit seq -w 0                   -M "$((MIN - 1))" "$f" > "03_length_filter/lt200/$b.fa"
