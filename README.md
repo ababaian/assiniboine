@@ -87,7 +87,7 @@ source /opt/miniconda3/etc/profile.d/conda.sh && conda activate circpipe
 ./04_rod_screen/run.sh                 # 16 workers, -j30
 ./04_rod_screen/run_extra.sh           # optional, 4 more workers alongside
 
-# 5. reduce to the published tables
+# 5. reduce to the output tables
 ./05_results/make_results.sh
 ```
 
@@ -114,7 +114,7 @@ above:
 
 900,042,456 circles, 595,006,157 unnamed by core_nt, 545,483,299 screened,
 **25,222,331 called rod**. Of those, **46,432 carry a ribozyme** and **16,757
-carry ribozymes on both strands**. The published shortlist is 2,056 rows, whose
+carry ribozymes on both strands**. The shortlist is 2,056 rows, whose
 top tier is 56 circles.
 
 Caveats that qualify those numbers are in
@@ -135,18 +135,18 @@ Nothing in this repo. Public, no credentials needed:
 
 Start with `shortlist.csv`. The per-chunk result files, 129 GB and all 545M
 rows, are not public: they are in `s3://petadex-tmp/circs-results/`. Local
-copies of the published tables are in
+copies of the run's output tables are in
 [`archive/original_pipeline/_run_outputs/step3/`](archive/).
 
-## What changed since the published run
+## What changed since the October run
 
 The pipeline above is not the one that produced the numbers in
 [Result](#result). Four changes, each with its reasoning in the relevant stage
 README.
 
 **Terminal overlap trimmed, and non-circles separated.** New stage 2. The
-30-nt duplication was previously left in place, so every published length is
-30 nt too long and every fold included a spurious tandem repeat. Separately,
+30-nt duplication was previously left in place, so every length in those tables
+is 30 nt too long and every fold included a spurious tandem repeat. Separately,
 about 37% of selfloops records turn out not to be circles at all: their
 self-link is to their own reverse complement, and the terminal 30-mer is a
 perfect inverted repeat in 100% of them. The October run folded all of those
@@ -171,4 +171,4 @@ untrimmed lengths, so they shift once stage 2 is applied.
 every `.done` marker rather than those for the current chunk set, which let an
 earlier run's markers declare a new run complete; chunk creation was never
 scripted; and the shortlist's tier 2 is truncated to 2,000 rows out of a
-qualifying pool of 13,399, which the published `DATA_README.md` does not say.
+qualifying pool of 13,399, which the run's `DATA_README.md` does not say.

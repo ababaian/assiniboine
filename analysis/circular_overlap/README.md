@@ -80,7 +80,7 @@ hairpin, **0 unmatched**, and every input lands in exactly one output.
 
 ## Effect on the October results
 
-Lengths in the published tables are untrimmed, so each is 30 nt too long for
+Lengths in the October run's tables are untrimmed, so each is 30 nt too long for
 the circular class. Any length-based cut applied to those tables is shifted by
 30 nt, including the `rod under 200 nt` figures quoted in
 `../../03_length_filter/README.md`.

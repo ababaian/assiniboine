@@ -1,4 +1,4 @@
-# 05_results -- reduce the screen to the published tables
+# 05_results -- reduce the screen to the output tables
 
 One row per screened circle becomes three tables.
 
@@ -28,10 +28,11 @@ is what proves no chunk was silently truncated. Writes
   confidence and **truncated** to `TOP_N` rows (2,000).
 
 Tier 2 is the part to be careful about. In the October run the qualifying pool
-was **13,399**, so the published cut landed at confidence **0.998** and
+was **13,399**, so the cut landed at confidence **0.998** and
 **11,399 candidates meeting the stated criteria are absent from the file.**
-The published `DATA_README.md` describes tier 2 as "both strands, confidence
->= 0.8", which reads as complete and is not. Raise `TOP_N` to publish more.
+The `DATA_README.md` uploaded with the run describes tier 2 as "both strands,
+confidence >= 0.8", which reads as complete and is not. Raise `TOP_N` to
+include more.
 
 ## Columns
 

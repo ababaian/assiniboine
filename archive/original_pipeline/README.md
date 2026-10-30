@@ -112,7 +112,7 @@ Public, no credentials:
     s3://petadex/circs-results/                    # stage 1 outputs
     s3://petadex/circs-results/step2_rod_screen/   # stage 4 and 5 outputs
 
-Local copies of the three published tables, the 320 per-chunk logs and stats,
+Local copies of the three output tables, the 320 per-chunk logs and stats,
 the taxonomy reports and the run accession lists are in `_run_outputs/`. The
 bulk inputs are gone, deleted in the October 2026 cleanup: the 83 GiB source
 archive, the 174 G of unclassified FASTAs, the length-split halves,
