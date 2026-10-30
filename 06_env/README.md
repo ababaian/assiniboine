@@ -1,7 +1,6 @@
 # 06_env -- the conda environment
 
-`run_pipeline.py` needs ViennaRNA, Infernal and EMBOSS, none of which were on
-this machine, plus a Python stack. `make_env.sh` builds env `circpipe`:
+`run_pipeline.py` needs ViennaRNA, Infernal and EMBOSSm plus a Python stack. `make_env.sh` builds env `circpipe`:
 
     source /opt/miniconda3/etc/profile.d/conda.sh && conda activate circpipe
 
