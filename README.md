@@ -24,7 +24,7 @@ accident.
 | 5 | [`05_results/`](05_results/) | reduce to the rod, ribozyme and shortlist tables |
 | | [`env/`](env/) | the conda environment |
 | | [`analysis/`](analysis/) | side analyses, not part of the screen |
-| | [`Archive/`](Archive/) | the pipeline that produced the published data |
+| | [`Archive/`](Archive/) | contains previous iterations of this pipeline |
 
 Each stage folder has a README with its counts, method and gotchas.
 
