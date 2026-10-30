@@ -42,7 +42,7 @@ process_chunk() {
         echo "$nin" > "step2/logs/$b.done"
         echo "[$(date -u '+%H:%M:%S')] ok   $b  $nout rows"
     else
-        echo "$b in=$nin out=$nout rc=$rc" >> step2/MISMATCH.txt
+        echo "$b in=$nin out=$nout rc=$rc at=$(date -u '+%Y-%m-%dT%H:%M:%SZ')" >> step2/MISMATCH.txt
         rmdir "step2/claims/$b" 2>/dev/null
         echo "[$(date -u '+%H:%M:%S')] BAD  $b in=$nin out=$nout rc=$rc"
     fi
@@ -50,17 +50,40 @@ process_chunk() {
 export -f process_chunk
 export LEB J ROOT
 
-say "starting: $(ls step2/chunks/chunk_* | wc -l) chunks, $NPROC workers x -j$J"
+# Clear the previous run's verdict before doing anything, including on the
+# no-chunks path, so a stale STEP2.DONE is never mistaken for this run's.
+rm -f STEP2.DONE STEP2.INCOMPLETE
+
+total=$(ls step2/chunks/chunk_* 2>/dev/null | wc -l)
+if [ "$total" -eq 0 ]; then
+    say "no chunks in step2/chunks/; run step2/make_chunks.sh first"
+    exit 1
+fi
+
+say "starting: $total chunks, $NPROC workers x -j$J"
 ls step2/chunks/chunk_* | xargs -P "$NPROC" -I{} bash -c 'process_chunk "$@"' _ {}
 
-done_n=$(ls step2/logs/*.done 2>/dev/null | wc -l)
+# Count only markers belonging to the CURRENT chunk set. Counting every
+# *.done in step2/logs lets markers from an earlier, differently-sized chunk
+# set satisfy the gate.
+done_n=0
+for c in step2/chunks/chunk_*; do
+    [ -e "step2/logs/$(basename "$c").done" ] && done_n=$((done_n+1))
+done
 {
   echo "Step 2 summary  ($(date -u))"
-  echo "chunks completed: $done_n / $(ls step2/chunks/chunk_* | wc -l)"
+  echo "chunks completed: $done_n / $total"
   echo "input records:    $(cat step2/logs/*.done 2>/dev/null | awk '{s+=$1}END{print s}')"
   echo "result rows:      $(cat step2/results/*.csv 2>/dev/null | grep -vc '^sample_name')"
-  [ -s step2/MISMATCH.txt ] && { echo "MISMATCHES:"; cat step2/MISMATCH.txt; }
+  # A chunk that mismatched and then succeeded on retry has a .done marker.
+  # Only chunks still lacking one are actually outstanding.
+  if [ -s step2/MISMATCH.txt ]; then
+      unresolved=$(awk '{print $1}' step2/MISMATCH.txt | sort -u | while read -r b; do
+          [ -e "step2/logs/$b.done" ] || echo "$b"
+      done)
+      [ -n "$unresolved" ] && { echo "UNRESOLVED MISMATCHES:"; printf '%s\n' "$unresolved"; }
+  fi
 } > SUMMARY_step2.txt 2>&1
 cat SUMMARY_step2.txt
-[ "$done_n" -eq "$(ls step2/chunks/chunk_* | wc -l)" ] && touch STEP2.DONE || touch STEP2.INCOMPLETE
+[ "$done_n" -eq "$total" ] && touch STEP2.DONE || touch STEP2.INCOMPLETE
 say "finished"

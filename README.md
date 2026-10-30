@@ -227,9 +227,15 @@ Chunk the deduped FASTA. 3,409,272 lines is 1,704,636 records, which gives the
 320 chunks of the original run:
 
 ```bash
-mkdir -p step2/chunks step2/results step2/logs step2/rfam
+mkdir -p step2/chunks step2/results step2/logs step2/claims step2/rfam
 split -a3 -d -l 3409272 dedup_le6000.fa step2/chunks/chunk_
 ```
+
+Wrapper: `step2/make_chunks.sh`. Prefer it over the bare `split`. Defining a
+new chunk set invalidates the previous run's `.done` markers and claim dirs,
+and leaving those in place makes `step2_run.sh` skip every chunk and still
+report success. The wrapper clears them, refuses to touch existing result
+CSVs, and checks that every chunk begins at a header.
 
 Seed a private Rfam cache for the chunk, then run the pipeline. `--circular`
 treats every input as a circle, `-j 30` and `--cmsearch-cpu 30` set the folding
