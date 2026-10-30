@@ -70,8 +70,9 @@ One HDV-family hit in 545 million circles.
   applied to those tables is shifted by 30.
 - **The shortlist's tier 2 is truncated** to 2,000 rows out of a qualifying
   pool of 13,399, so the effective cut is confidence 0.998 rather than the 0.8
-  its `DATA_README.md` states, and 11,399 candidates meeting the stated
-  criteria are absent from the file.
+  the drafted `DATA_README.md` states (at the `run-2026-10` tag, never uploaded
+  to S3), and 11,399 candidates meeting the stated criteria are absent from
+  the file.
 - **The completion gate counted every `.done` marker** rather than those for
   the current chunk set, so an earlier run's markers could declare a new run
   complete. Chunk creation was also never scripted, and with an empty chunk

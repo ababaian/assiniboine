@@ -30,9 +30,10 @@ is what proves no chunk was silently truncated. Writes
 Tier 2 is the part to be careful about. In the October run the qualifying pool
 was **13,399**, so the cut landed at confidence **0.998** and
 **11,399 candidates meeting the stated criteria are absent from the file.**
-The `DATA_README.md` uploaded with the run describes tier 2 as "both strands,
-confidence >= 0.8", which reads as complete and is not. Raise `TOP_N` to
-include more.
+The `DATA_README.md` drafted for the run (`step2/share/DATA_README.md` at the
+`run-2026-10` tag; it was never uploaded to S3) describes tier 2 as "both
+strands, confidence >= 0.8", which reads as complete and is not. Raise
+`TOP_N` to include more.
 
 ## Columns
 
