@@ -9,10 +9,9 @@ The pipeline as it stood for the October 2026 run, verbatim at commit
 `s3://petadex/circs-results/`, so it is the method record for that data and
 should not be edited.
 
-`original_pipeline/README.md` is the guide to it: the same shape as the main
-README, plus a tracker of how the record count falls at every step from
-900,042,456 down to the 2,056-row shortlist. `PIPELINE_README.md` is the
-original top-level doc as written at the time.
+`original_pipeline/README.md` is the guide to it: the stages, the verification
+checks, the commands as they ran, the headline result and where the data lives.
+`PIPELINE_README.md` is the original top-level doc as written at the time.
 
 It differs from the current pipeline in three ways:
 
