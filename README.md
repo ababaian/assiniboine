@@ -29,32 +29,28 @@ accident.
 Each stage folder has a README with its counts, method and gotchas.
 
 **1. Kraken2 filter.** core_nt at `--confidence 0.1`, keeping everything
-unclassified. 10 processes of 32 threads share one mmap'd 340 GB index through
-the page cache, so RAM cost is one copy, not ten. Unclassified means core_nt
-could not name it, not that it is novel.
+unclassified, which means core_nt could not name it and not that it is novel.
 
-**2. Circular overlap.** Logan assembles at k=31, so a unitig that closes into
-a circle is written with its first 30 nt repeated as its last 30. That
-duplication inflates every length by 30 and, once `RNAfold --circ` joins the
-ends, inserts a spurious tandem repeat into the folded structure. This stage
-trims it. It also splits off the roughly 37% of records whose self-link is to
-their own reverse complement: those are linear contigs capped by an inverted
-repeat, not circles, and they are parked rather than screened.
+**2. Circular overlap.** Logan assembles at k=31, so a closed circle is
+written with its first 30 nt repeated as its last 30; trimming that corrects
+both the inflated length and the spurious tandem repeat `--circ` would fold
+into the junction. It also parks the roughly 37% of records whose self-link is
+to their own reverse complement, which are inverted-repeat-capped linear
+contigs rather than circles.
 
-**3. Length filter.** Two bounds for two reasons. The 6000 nt ceiling is a bug
-workaround, since RNAfold stops rather than skips on an oversized circle and
-one long record silently truncates the rest of its batch. The 200 nt floor is a
-biological filter, since circles that short are below any known viroid-like
+**3. Length filter.** Keep 200 to 6000 nt: the ceiling because RNAfold stops
+rather than skips on an oversized circle and silently truncates the rest of its
+batch, the floor because anything shorter is below every known viroid-like
 agent. Out-of-range records are parked, not deleted.
 
-**4. Rod screen.** Per circle: `getorf` on the doubled sequence so ORFs
-crossing the junction are found, `RNAfold --noPS --circ` for structure,
-`cmsearch` against an in-house `dvr5.cm` and 18 Rfam ribozyme CMs, then a
-31-feature random forest labels rod or not_rod.
+**4. Rod screen.** Per circle: `getorf` on the doubled sequence so
+junction-crossing ORFs are found, `RNAfold --noPS --circ`, `cmsearch` against
+an in-house `dvr5.cm` and 18 Rfam ribozyme CMs, then a 31-feature random forest
+labels rod or not_rod.
 
-**5. Results.** Filter to rod calls, then to rod calls carrying a ribozyme,
-then rank into a two-tier shortlist. Ribozymes on both strands is the
-rolling-circle hallmark and is what the shortlist selects on.
+**5. Results.** Filter to rod, then to rod carrying a ribozyme, then rank into
+a two-tier shortlist keyed on ribozymes on both strands, the rolling-circle
+hallmark.
 
 ## Commands
 
