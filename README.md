@@ -33,9 +33,10 @@ unclassified, which means core_nt could not name it and not that it is novel.
 **2. Circular overlap.** Logan assembles at k=31, so a closed circle is
 written with its first 30 nt repeated as its last 30; trimming that corrects
 both the inflated length and the spurious tandem repeat `--circ` would fold
-into the junction. It also parks the roughly 37% of records whose self-link is
-to their own reverse complement, which are inverted-repeat-capped linear
-contigs rather than circles.
+into the junction. It also labels how each record closes: the roughly 37%
+whose self-link is to their own reverse complement are linear contigs capped by
+an inverted repeat rather than circles, and they are labelled rather than
+withheld, so everything reaches the screen.
 
 **3. Length filter.** Keep 200 to 6000 nt: the ceiling because RNAfold stops
 rather than skips on an oversized circle and silently truncates the rest of its
