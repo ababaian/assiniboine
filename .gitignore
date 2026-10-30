@@ -52,7 +52,7 @@ Lebowski/
 04_rod_screen/claims/
 04_rod_screen/rfam/
 # the October run's outputs, kept on disk but not in git
-archive/original_pipeline/_run_outputs/
+run_outputs_2026-10/
 # scratch
 05_benchmarks/
 scratch/
