@@ -105,7 +105,7 @@ Two prerequisites are not in this repo:
 ## Result
 
 From the October 2026 run, which used an earlier version of this pipeline,
-commit `29946fe`:
+tagged `run-2026-10`:
 
 900,042,456 circles, 595,006,157 unnamed by core_nt, 545,483,299 screened,
 **25,222,331 called rod**. Of those, **46,432 carry a ribozyme** and **16,757

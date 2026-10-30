@@ -11,11 +11,11 @@ version of this pipeline. Its outputs are in
 taxonomy reports and run accession lists are in `run_outputs_2026-10/` on
 watson, which is gitignored.
 
-**The pipeline that produced it is commit `29946fe`**, the first commit on
-`main`. To read or run it:
+**The pipeline that produced it is tagged `run-2026-10`** (commit `29946fe`,
+the first commit on `main`). To read or run it:
 
-    git show 29946fe --stat
-    git checkout 29946fe          # or: git worktree add ../k2-oct2026 29946fe
+    git show run-2026-10 --stat
+    git worktree add ../k2-oct2026 run-2026-10
 
 It predates the overlap trim, the 200 nt floor and the removal of the dedup
 stage, so its outputs carry the defects listed below.
@@ -88,6 +88,6 @@ One HDV-family hit in 545 million circles.
 
 **2026-10-30, no archive folders.** An `archive/Pipeline/` copy of the October
 pipeline was briefly added so past versions would not have to be dug out of
-history. That is what git already does, so it was removed: the old pipeline is
-commit `29946fe` and this file records where to find it. Version history goes
-in git, run records go here.
+history. That is what git already does, so it was removed and the commit
+tagged `run-2026-10` instead. Version history goes in git, run records go
+here.
