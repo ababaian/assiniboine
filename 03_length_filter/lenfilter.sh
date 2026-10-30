@@ -21,7 +21,7 @@ MAX=6000
 
 mkdir -p 03_length_filter/lt200 03_length_filter/in_range 03_length_filter/gt6000
 
-ls 02_circular_overlap/circular/*.fa | xargs -P12 -I{} sh -c '
+ls 02_circular_overlap/labelled/*.fa | xargs -P12 -I{} sh -c '
   b=$(basename "$1" .fa)
   awk -v s="03_length_filter/lt200/$b.fa" -v u="03_length_filter/in_range/$b.fa" -v o="03_length_filter/gt6000/$b.fa" \
       -v min='"$MIN"' -v max='"$MAX"' "

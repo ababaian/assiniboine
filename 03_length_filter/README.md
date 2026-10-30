@@ -4,7 +4,7 @@ Two bounds, inclusive, for two different reasons. Nothing is deleted: the
 out-of-range records are written out so either bound can be revisited without
 re-running stage 1.
 
-    in        595,006,157  (01_kraken_filter/unclassified/)
+    in                     02_circular_overlap/labelled/  (all classes)
     lt200                  -> parked, below any known viroid-like agent
     in_range               -> goes on to the rod screen
     gt6000                 -> parked, RNAfold cannot address these
@@ -15,6 +15,22 @@ there is no measured in-range count for it yet: the finest bucket in
 `LENGTH_HIST.txt` is `<=500`, the per-length `lenhist/*.hist` shards are gone,
 and the source FASTAs were deleted in the October 2026 cleanup. The floor has
 to be re-measured on a rerun.
+
+## The floor bites unevenly across the overlap classes
+
+The input arrives labelled by stage 2, and the two classes have different
+length distributions, so the floor does not treat them alike. Measured on
+10,000 real records:
+
+    class      in     in range   kept
+    circular  5,005     1,395   27.9%
+    hairpin   4,995     3,724   74.6%
+
+Circles are shorter to begin with and lose a further 30 nt to the overlap trim,
+so the floor removes nearly three quarters of them while removing a quarter of
+the hairpins. The screened set therefore comes out majority hairpin, which is
+worth knowing before reading any aggregate rate off it. `ovl:` in the header
+and `02_circular_overlap/overlap_class.tsv` are what to stratify on.
 
 ## Why the 6000 nt ceiling exists
 
