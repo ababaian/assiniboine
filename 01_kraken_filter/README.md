@@ -15,22 +15,25 @@ It is NOT ours to delete -- removal needs `js` or an admin.
 
 | item | what it is |
 |---|---|
-| `unclassified/unclass_part_000.fa` … `_020.fa` | **the output**: 21 FASTA, 174 G, 595,006,157 records |
-| `unclassified/*.fa.count` | per-file header counts |
-| `SUMMARY_k2_filter.txt` | the rollup above |
-| `reports/report_part_*.txt` | 21 Kraken2 taxonomy reports |
-| `logs/part_*.log` | per-chunk stdout (counts, percentages) |
-| `logs/part_*.done` | completion markers (resume state) |
-| `claims/part_*` | atomic claim dirs, one per chunk |
-| `k2_classify.sh` | **the runner that did the work** |
-| `k2_filter.sh` | the original 2-stage driver, superseded |
-| `counts/unclassified_total.txt` | 595006157 -- independent recount, matches |
-| `counts/all_runs.txt` | 5,308,320 distinct SRA run accessions |
-| `counts/verify.log`, `VERIFY.DONE` | the verification pass |
+| `k2_filter.sh` | **the stage**: decompress and split the source into parts, then classify them 10 at a time |
+| `k2_classify.sh` | classify-only runner; claims parts by atomic `mkdir` so copies can run together, and holds back the part `split` is still writing |
+| `parts/part_NNN` | 45M-record slices of the source, each deleted after its own kraken2 exit 0 |
+| `unclassified/unclass_part_NNN.fa` | **the output**, input to stage 2 |
+| `logs/part_NNN.log` | per-part kraken2 stdout (counts, percentages) |
+| `logs/report_part_NNN.txt` | per-part Kraken2 taxonomy report |
+| `logs/part_NNN.done` | completion marker, the resume state |
+| `claims/part_NNN` | atomic claim dir, presence means taken |
+| `SUMMARY_k2_filter.txt` | the rollup of the counts |
+| `K2_FILTER.DONE` | written when every part has completed |
+
+The October run also has a `counts/` directory (an independent recount, and
+5,308,320 distinct SRA run accessions) and per-file `.count` files. Those came
+from ad hoc verification commands rather than from these scripts, and live in
+`run_outputs_2026-10/` on watson.
 
 ## How it got to 16 minutes instead of 106
 
-Benchmarked first (see `../05_benchmarks/README.md`):
+Benchmarked first, on watson (the raw benchmark files are not in the repo):
 
 - one process, 32-64 threads, warm db cache: 8.5M seq/min -> ~106 min
 - 128 threads: *slower* (4.3M seq/min) -- contention
@@ -45,7 +48,7 @@ cache (`--memory-mapping`), so ten of them cost one copy of RAM, not ten.
 classification overlaps the decompression.
 
 Resume-safe: chunks are claimed with an atomic `mkdir` and each part is deleted
-only after its own exit 0, which is why `parts/` is now empty.
+only after its own exit 0, which is why `parts/` ends empty.
 
 ## What the classified third was
 
@@ -60,7 +63,8 @@ argument for screening the unclassified 66%.
 
 ## Rerunning
 
-    ./k2_classify.sh          # resumes; skips parts with a logs/*.done marker
+    ./01_kraken_filter/k2_filter.sh      # splits, classifies, resumes
+    ./01_kraken_filter/k2_classify.sh    # classify only, if parts/ already holds slices
 
-Note it reads `parts/part_*`, which no longer exist; regenerate them from
-`../00_source/` first (see `k2_filter.sh` stage 1).
+Both skip parts with a `logs/*.done` marker, so either can be re-run after an
+interruption.

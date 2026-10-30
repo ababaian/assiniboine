@@ -75,7 +75,7 @@ called rod below 150 nt at all.
 | `in_range/unclass_part_*.fa` | 200 to 6000 nt, the output that goes on |
 | `gt6000/unclass_part_*.fa` | records over 6000 nt, parked |
 | `SUMMARY_lenfilter.txt` | the three counts, written by the runner |
-| `LENGTH_HIST.txt` | the October run's length distribution |
+| `LENGTH_HIST.txt` | length distribution of stage 1's output; the committed copy is the October run's, and `lenhist.sh` overwrites it (the original stays at `run-2026-10`) |
 | `lenfilter.sh` | the parallel three-way split |
 | `lenhist.sh` | the histogram pass |
 | `lenhist/*.runs` | per-file distinct SRA run lists |
