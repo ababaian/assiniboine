@@ -1,6 +1,6 @@
 # Logan selfloops rod-like circle screen
 
-Screens every circular contig in the SRA for rod-like, ribozyme-bearing
+This pipeline screens every circular contig in the SRA for rod-like, ribozyme-bearing
 circles: viroids, ribozyviruses, obelisks, ambiviruses and anything resembling
 them.
 
