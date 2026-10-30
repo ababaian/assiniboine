@@ -11,7 +11,6 @@ them so any class can be filtered, stratified or compared downstream.
 
     in                   01_kraken_filter/unclassified/*.fa
     labelled/*.fa        every record, trimmed where applicable, header tagged
-    overlap_class.tsv    id, class, nt trimmed
     SUMMARY_overlap.txt  the counts
 
 ## Why the overlap has to go
@@ -79,9 +78,11 @@ The header gains `ovl:<class> trim:<nt>` after the existing fields:
 `sample_name` in the screen's output comes from the first whitespace-delimited
 token, which is untouched, so ids and joins are unaffected.
 
-`overlap_class.tsv` carries the same information as `id <TAB> class <TAB> nt
-trimmed`, which is what to join against the result tables, since the screen's
-CSV keeps only `sample_name` and not the rest of the header.
+The screen's CSV keeps only `sample_name`, so to join a class onto the results,
+recover the mapping from the headers:
+
+    grep -h '^>' 02_circular_overlap/labelled/*.fa \
+      | sed 's/^>\([^ ]*\).*ovl:\([a-z]*\).*/\1\t\2/'
 
 ## Running
 
@@ -96,8 +97,9 @@ wrapped FASTA would misalign every record after the first.
 
 ## Verified
 
-On 20,000 real selfloops records: 20,000 in and 20,000 out with 20,000 class
-rows, so nothing is gated or duplicated; 13,206 circular and 6,794 hairpin and
-0 unmatched; `trim:30` on the circular class and `trim:0` on every other;
-every output two lines per record; and 0 of the trimmed records still carrying
-a 30-nt terminal repeat.
+On 20,000 real selfloops records: 20,000 in and 20,000 out, so nothing is
+gated or duplicated; 13,206 circular and 6,794 hairpin and 0 unmatched;
+`trim:30` on the circular class and `trim:0` on every other; every output two
+lines per record; 0 of the trimmed records still carrying a 30-nt terminal
+repeat; and 100 tagged records through `run_pipeline.py` produced clean
+`sample_name` values with no tag leakage.
