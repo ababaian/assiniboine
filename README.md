@@ -24,7 +24,6 @@ accident.
 | 5 | [`05_results/`](05_results/) | reduce to the rod, ribozyme and shortlist tables |
 | | [`env/`](env/) | the conda environment |
 | | [`analysis/`](analysis/) | side analyses, not part of the screen |
-| | [`archive/`](archive/) | contains previous iterations of this pipeline |
 
 Each stage folder has a README with its counts, method and gotchas.
 
@@ -105,19 +104,17 @@ Two prerequisites are not in this repo:
 
 ## Result
 
-From the October 2026 run, which used the archived pipeline rather than the one
-above:
+From the October 2026 run, which used an earlier version of this pipeline,
+commit `29946fe`:
 
 900,042,456 circles, 595,006,157 unnamed by core_nt, 545,483,299 screened,
 **25,222,331 called rod**. Of those, **46,432 carry a ribozyme** and **16,757
 carry ribozymes on both strands**. The shortlist is 2,056 rows, whose
 top tier is 56 circles.
 
-Caveats that qualify those numbers are in
-[`archive/original_pipeline/step2/share/METHOD.md`](archive/original_pipeline/step2/share/METHOD.md)
-and
-[`archive/original_pipeline/01_kraken_filter/share/METHOD.md`](archive/original_pipeline/01_kraken_filter/share/METHOD.md).
-Read them before quoting any result.
+The caveats that qualify those numbers, and the defects carried into that
+run's output tables, are in [`NOTES.md`](NOTES.md). Read them before quoting
+any result.
 
 ## Data
 
@@ -131,8 +128,8 @@ Nothing in this repo. Public, no credentials needed:
 
 Start with `shortlist.csv`. The per-chunk result files, 129 GB and all 545M
 rows, are not public: they are in `s3://petadex-tmp/circs-results/`. Local
-copies of the run's output tables are in
-[`archive/original_pipeline/_run_outputs/step3/`](archive/).
+copies of the run's output tables are in `run_outputs_2026-10/` on watson,
+which is gitignored.
 
 ## What changed since the October run
 

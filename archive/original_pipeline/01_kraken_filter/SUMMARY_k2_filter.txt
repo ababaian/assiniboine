@@ -1,7 +1,0 @@
-Kraken2 filter summary  (Fri Oct  2 10:06:38 PM UTC 2026)
-db=/watson/rnalab/js/resource_files/k2_core_nt  confidence=0.1  source=selfloops.v1.1.fa.zst
-input records (counted): 900042456
-processed    900042456
-classified   305036299 (33.89%)
-unclassified 595006157 (66.11%)
-unclassified FASTA: 174G across 21 files
