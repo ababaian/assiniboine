@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1560 830" width="1560" height="830" role="img" aria-labelledby="t d">
+<title id="t">k2-circ rod screen Sankey</title>
+<desc id="d">Stage 0, 900,042,456 records. Stage 1 splits them into 305,036,299 classified and 595,006,157 unclassified. Stage 2 labels 562,743,416 circular and 32,262,741 hairpin. Stage 3 keeps 161,292,329 in range (140,330,297 circular, 20,962,032 hairpin) and sets aside 433,713,828 (422,413,119 circular, 11,300,709 hairpin). Stage 4 is ongoing at 91.9% screened. Stage 5 is pending. Proposed S3 files are shown beneath the stages they cover.</desc>
+<style>
+text { font-family: "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 14px; fill: #1c1c1c; }
+.b { font-weight: 700; }
+.title { font-size: 24px; font-weight: 700; }
+</style>
+<defs>
+<linearGradient id="fan"><stop offset="0" stop-color="#b9b9b9" stop-opacity=".15"/><stop offset="1" stop-color="#b9b9b9"/></linearGradient>
+<linearGradient id="unclassified"><stop offset="0" stop-color="#55c866" stop-opacity=".35"/><stop offset="1" stop-color="#55c866" stop-opacity=".85"/></linearGradient>
+</defs>
+<rect width="1560" height="830" fill="#ffffff"/>
+<text class="title" x="16" y="36">k2-circ rod screen</text>
+<rect x="16" y="90" width="101" height="30" rx="6" fill="#ececec"/>
+<text class="b" x="27" y="110">0  Source</text>
+<path d="M270 92h26l-10 12v11l-6 3v-14z" fill="#f2b8b8"/>
+<rect x="302" y="90" width="163" height="30" rx="6" fill="#f7d6d6"/>
+<text class="b" x="313" y="110">1  Kraken filter</text>
+<rect x="590" y="90" width="189" height="30" rx="6" fill="#ececec"/>
+<text class="b" x="601" y="110">2  Circular overlap</text>
+<path d="M880 92h26l-10 12v11l-6 3v-14z" fill="#f2b8b8"/>
+<rect x="912" y="90" width="163" height="30" rx="6" fill="#f7d6d6"/>
+<text class="b" x="923" y="110">3  Length filter</text>
+<rect x="1130" y="90" width="136" height="30" rx="6" fill="#dcdcfa"/>
+<text class="b" x="1141" y="110">4  Rod screen</text>
+<rect x="1392" y="90" width="110" height="30" rx="6" fill="#ececec"/>
+<text class="b" x="1403" y="110">5  Results</text>
+<rect x="16" y="383.0" width="149" height="54" rx="7" fill="#f2f2f2" fill-opacity=".92"/>
+<text x="26" y="405.0"><tspan class="b">Logan selfloops</tspan></text>
+<text x="26" y="427.0"><tspan class="b"></tspan>900,042,456</text>
+<path d="M196 410L270 240V580Z" fill="url(#fan)"/>
+<rect x="270" y="240.00" width="6" height="340.00" fill="#7d8a8f"/>
+<path d="M276 240.00C433.0 240.00 433.0 170.00 590 170.00L590 394.77C433.0 394.77 433.0 464.77 276 464.77Z" fill="url(#unclassified)" />
+<path d="M276 464.77C418.0 464.77 418.0 486.00 560 486.00L560 601.23C418.0 601.23 418.0 580.00 276 580.00Z" fill="#b9b9b9" />
+<rect x="570" y="495.0" width="226" height="98" rx="7" fill="#f2f2f2" fill-opacity=".92"/>
+<text x="580" y="517.0"><tspan class="b">Classified: </tspan>305,036,299</text>
+<text x="594" y="539.0"><tspan class="b"></tspan>- Eukaryota: 232,188,594</text>
+<text x="594" y="561.0"><tspan class="b"></tspan>- Root only: 47,510,836</text>
+<text x="594" y="583.0"><tspan class="b"></tspan>- Bacteria: 17,018,268</text>
+<rect x="310" y="190.0" width="235" height="32" rx="7" fill="#f2f2f2" fill-opacity=".92"/>
+<text x="320" y="212.0"><tspan class="b">Unclassified: </tspan>595,006,157</text>
+<rect x="590" y="170.00" width="6" height="224.77" fill="#7d8a8f"/>
+<path d="M596 170.00C738.0 170.00 738.0 170.00 880 170.00L880 382.58C738.0 382.58 738.0 382.58 596 382.58Z" fill="#55c866" opacity=".78"/>
+<path d="M596 382.58C738.0 382.58 738.0 382.58 880 382.58L880 394.77C738.0 394.77 738.0 394.77 596 394.77Z" fill="#3c7f98" />
+<rect x="630" y="230.0" width="201" height="32" rx="7" fill="#f2f2f2" fill-opacity=".92"/>
+<text x="640" y="252.0"><tspan class="b">Circular: </tspan>562,743,416</text>
+<rect x="630" y="404.8" width="183" height="32" rx="7" fill="#f2f2f2" fill-opacity=".92"/>
+<text x="640" y="426.8"><tspan class="b">Hairpin: </tspan>32,262,741</text>
+<rect x="880" y="170.00" width="6" height="224.77" fill="#7d8a8f"/>
+<path d="M886 170.00C1008.0 170.00 1008.0 150.00 1130 150.00L1130 203.01C1008.0 203.01 1008.0 223.01 886 223.01Z" fill="#55c866" opacity=".78"/>
+<path d="M886 223.01C1008.0 223.01 1008.0 203.01 1130 203.01L1130 210.93C1008.0 210.93 1008.0 230.93 886 230.93Z" fill="#3c7f98" />
+<path d="M886 230.93C1008.0 230.93 1008.0 420.00 1130 420.00L1130 579.57C1008.0 579.57 1008.0 390.50 886 390.50Z" fill="#b9b9b9" />
+<path d="M886 390.50C1008.0 390.50 1008.0 579.57 1130 579.57L1130 583.84C1008.0 583.84 1008.0 394.77 886 394.77Z" fill="#74909c" />
+<rect x="1130" y="420.00" width="6" height="163.84" fill="#7d8a8f"/>
+<rect x="1146" y="463.9" width="235" height="76" rx="7" fill="#f2f2f2" fill-opacity=".92"/>
+<text x="1156" y="485.9"><tspan class="b">Out of range: </tspan>433,713,828</text>
+<text x="1170" y="507.9"><tspan class="b"></tspan>- Circular: 422,413,119</text>
+<text x="1170" y="529.9"><tspan class="b"></tspan>- Hairpin: 11,300,709</text>
+<rect x="960" y="232.0" width="218" height="76" rx="7" fill="#f2f2f2" fill-opacity=".92"/>
+<text x="970" y="254.0"><tspan class="b">In range: </tspan>161,292,329</text>
+<text x="984" y="276.0"><tspan class="b"></tspan>- Circular: 140,330,297</text>
+<text x="984" y="298.0"><tspan class="b"></tspan>- Hairpin: 20,962,032</text>
+<rect x="1130" y="150.00" width="6" height="60.93" fill="#3a3ae0"/>
+<rect x="1136" y="150" width="207.6" height="60.93" fill="#3a3ae0" opacity=".7"/>
+<rect x="1136" y="150" width="226" height="60.93" fill="none" stroke="#3a3ae0" stroke-width="1.2" stroke-dasharray="4 3"/>
+<rect x="1146" y="164.5" width="226" height="32" rx="7" fill="#f2f2f2" fill-opacity=".92"/>
+<text x="1156" y="186.5"><tspan class="b">Screening ongoing: </tspan>91.9%</text>
+<rect x="1200" y="222.0" width="347" height="120" rx="7" fill="#f2f2f2" fill-opacity=".92"/>
+<text x="1210" y="244.0"><tspan class="b">Ongoing: </tspan>79 of 95 chunks finished</text>
+<text x="1224" y="266.0"><tspan class="b"></tspan>- Screened: 134,666,244</text>
+<text x="1224" y="288.0"><tspan class="b"></tspan>- Rod: 8,579,005</text>
+<text x="1224" y="310.0"><tspan class="b"></tspan>- Rod with confidence ≥ 0.8: 1,321,128</text>
+<text x="1224" y="332.0"><tspan class="b"></tspan>- Rod with a ribozyme: 31,553</text>
+<rect x="1392" y="164.5" width="80" height="32" rx="7" fill="none" stroke="#8a9aa1" stroke-dasharray="5 4"/>
+<text x="1402" y="186.5"><tspan class="b">Pending</tspan></text>
+<line x1="16" y1="622" x2="1547" y2="622" stroke="#d5d5d5"/>
+<text class="b" x="16" y="652">Proposed S3 files, about 95 GB, not on S3 yet</text>
+<rect x="16" y="668" width="234" height="62" rx="7" fill="#dff3e2" />
+<text x="30" y="694"><tspan class="b">selfloops.v1.1.fa.zst</tspan></text>
+<text x="30" y="716"><tspan class="b"></tspan>83 GB, all sequences</text>
+<rect x="270" y="668" width="850" height="62" rx="7" fill="#e3edf1" />
+<text x="286" y="694"><tspan class="b">record_manifest: </tspan>5-10 GB, one row per record</text>
+<text x="286" y="716"><tspan class="b"></tspan>ID, SRA run, classified, taxid</text>
+<text x="606" y="716"><tspan class="b"></tspan>Circular or hairpin</text>
+<text x="896" y="716"><tspan class="b"></tspan>Length, stage reached</text>
+<rect x="270" y="738" width="850" height="34" rx="7" fill="#f2f2f2" />
+<text x="286" y="761"><tspan class="b">Kraken reports, classified_taxa.csv, stage summaries: </tspan>under 100 MB</text>
+<rect x="16" y="780" width="1104" height="34" rx="7" fill="#f2f2f2" />
+<text x="30" y="803"><tspan class="b">rebuild_stage.sh: </tspan>recreates any stage from the source and manifest</text>
+<rect x="1130" y="668" width="417" height="62" rx="7" fill="#ffffff" stroke="#8a9aa1" stroke-dasharray="5 4"/>
+<text x="1146" y="694"><tspan class="b">On hold until the screen finishes</tspan></text>
+<text x="1146" y="716"><tspan class="b"></tspan>Rod-with-ribozyme and shortlist FASTA</text></svg>
