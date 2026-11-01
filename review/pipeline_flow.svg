@@ -10,7 +10,6 @@ text { font-family: "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 <linearGradient id="fan"><stop offset="0" stop-color="#b9b9b9" stop-opacity=".15"/><stop offset="1" stop-color="#b9b9b9"/></linearGradient>
 <linearGradient id="unclassified"><stop offset="0" stop-color="#55c866" stop-opacity=".35"/><stop offset="1" stop-color="#55c866" stop-opacity=".85"/></linearGradient>
 </defs>
-<rect width="1560" height="830" fill="#ffffff"/>
 <text class="title" x="16" y="36">k2-circ rod screen</text>
 <rect x="16" y="90" width="101" height="30" rx="6" fill="#ececec"/>
 <text class="b" x="27" y="110">0  Source</text>
@@ -88,6 +87,6 @@ text { font-family: "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 <text x="286" y="761"><tspan class="b">Kraken reports, classified_taxa.csv, stage summaries: </tspan>under 100 MB</text>
 <rect x="16" y="780" width="1104" height="34" rx="7" fill="#f2f2f2" />
 <text x="30" y="803"><tspan class="b">rebuild_stage.sh: </tspan>recreates any stage from the source and manifest</text>
-<rect x="1130" y="668" width="417" height="62" rx="7" fill="#ffffff" stroke="#8a9aa1" stroke-dasharray="5 4"/>
+<rect x="1130" y="668" width="417" height="62" rx="7" fill="none" stroke="#8a9aa1" stroke-dasharray="5 4"/>
 <text x="1146" y="694"><tspan class="b">On hold until the screen finishes</tspan></text>
 <text x="1146" y="716"><tspan class="b"></tspan>Rod-with-ribozyme and shortlist FASTA</text></svg>

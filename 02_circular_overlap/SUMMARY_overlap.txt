@@ -1,0 +1,7 @@
+Circular overlap labelling  (Fri Oct 30 10:38:59 PM UTC 2026)
+overlap length k-1: 30
+all classes go on to the length filter; this stage gates nothing
+circular  (trimmed 30 nt)    562743416
+hairpin   (untrimmed)        32262741
+unmatched (untrimmed)               0
+total                       595006157

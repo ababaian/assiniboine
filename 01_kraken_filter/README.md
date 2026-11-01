@@ -1,7 +1,8 @@
 # 01_kraken_filter -- step 1: drop anything already known
 
 Kraken2 against core_nt at `--confidence 0.1`; everything **unclassified** is
-kept and goes on to the folding pipeline. 16 minutes wall.
+kept and goes on to the folding pipeline. 16 minutes wall. Unclassified means
+core_nt could not name the record, not that it is novel.
 
     processed     900,042,456   (equals 00_source/total_records.txt exactly)
     classified    305,036,299   33.89%  -- discarded

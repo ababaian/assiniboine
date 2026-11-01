@@ -1,0 +1,6 @@
+Length filter  (Fri Oct 30 10:42:57 PM UTC 2026)
+range kept: 200-6000 nt inclusive
+under 200      433444574
+in range       161292329  <- goes on to the rod screen
+over  6000        269254
+total          595006157
