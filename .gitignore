@@ -54,3 +54,8 @@ run_outputs_2026-10/
 # scratch
 05_benchmarks/
 scratch/
+# the pipeline figure
+!review/pipeline_flow.svg
+!review/pipeline_flow_dark.svg
+!review/pipeline_flow_800dpi.png
+!review/pipeline_flow_800dpi_transparent.png

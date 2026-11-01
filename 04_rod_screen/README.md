@@ -4,6 +4,10 @@ The folding pipeline over every in-range circle: `getorf`, `RNAfold --circ`,
 `cmsearch` against dvr5 plus the combined Rfam ribozyme library, then the
 `rodnotrod` random forest. Chunked by `make_chunks.sh`, driven by `run.sh`.
 
+Per circle: `getorf` on the doubled sequence so junction-crossing ORFs are
+found, `RNAfold --noPS --circ`, `cmsearch` against an in-house `dvr5.cm` and 18
+Rfam ribozyme CMs, then a 31-feature random forest labels rod or not_rod.
+
     input   03_length_filter/in_range/*.fa   (200 to 6000 nt, overlap trimmed)
     layout  chunks of 1,704,636 records, count follows the input size
     config  16 concurrent workers x -j30 and --cmsearch-cpu 30 (= all 480 cores)

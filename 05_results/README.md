@@ -21,6 +21,8 @@ is what proves no chunk was silently truncated. Writes
 
 ## The shortlist rule
 
+Both tiers key on ribozymes on both strands, the rolling-circle hallmark.
+
 - **Tier 1**: ribozymes on both strands AND at least one corroborated locus,
   meaning independent CMs agree on the same site. Taken in full. 56 rows in
   the October run.
