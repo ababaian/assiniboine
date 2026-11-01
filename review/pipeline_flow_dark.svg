@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1560 830" width="1560" height="830" role="img" aria-labelledby="t d">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1560 620" width="1560" height="620" role="img" aria-labelledby="t d">
 <title id="t">k2-circ rod screen Sankey</title>
-<desc id="d">Stage 0, 900,042,456 records. Stage 1 splits them into 305,036,299 classified and 595,006,157 unclassified. Stage 2 labels 562,743,416 circular and 32,262,741 hairpin. Stage 3 keeps 161,292,329 in range (140,330,297 circular, 20,962,032 hairpin) and sets aside 433,713,828 (422,413,119 circular, 11,300,709 hairpin). Stage 4 is ongoing at 91.9% screened. Stage 5 is pending. Proposed S3 files are shown beneath the stages they cover.</desc>
+<desc id="d">Stage 0, 900,042,456 records. Stage 1 splits them into 305,036,299 classified and 595,006,157 unclassified. Stage 2 labels 562,743,416 circular and 32,262,741 hairpin. Stage 3 keeps 161,292,329 in range (140,330,297 circular, 20,962,032 hairpin) and sets aside 433,713,828 (422,413,119 circular, 11,300,709 hairpin). Stage 4 is ongoing at 91.9% screened. Stage 5 is pending.</desc>
 <style>
 text { font-family: "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 14px; fill: #f0f0f0; }
 .b { font-weight: 700; }
@@ -72,21 +72,4 @@ text { font-family: "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 <text x="1224" y="310.0"><tspan class="b"></tspan>- Rod with confidence ≥ 0.8: 1,321,128</text>
 <text x="1224" y="332.0"><tspan class="b"></tspan>- Rod with a ribozyme: 31,553</text>
 <rect x="1392" y="164.5" width="80" height="32" rx="7" fill="none" stroke="#9fadb3" stroke-dasharray="5 4"/>
-<text x="1402" y="186.5"><tspan class="b">Pending</tspan></text>
-<line x1="16" y1="622" x2="1547" y2="622" stroke="#4a4f53"/>
-<text class="b" x="16" y="652">Proposed S3 files, about 95 GB, not on S3 yet</text>
-<rect x="16" y="668" width="234" height="62" rx="7" fill="#1f4029" />
-<text x="30" y="694"><tspan class="b">selfloops.v1.1.fa.zst</tspan></text>
-<text x="30" y="716"><tspan class="b"></tspan>83 GB, all sequences</text>
-<rect x="270" y="668" width="850" height="62" rx="7" fill="#22363f" />
-<text x="286" y="694"><tspan class="b">record_manifest: </tspan>5-10 GB, one row per record</text>
-<text x="286" y="716"><tspan class="b"></tspan>ID, SRA run, classified, taxid</text>
-<text x="606" y="716"><tspan class="b"></tspan>Circular or hairpin</text>
-<text x="896" y="716"><tspan class="b"></tspan>Length, stage reached</text>
-<rect x="270" y="738" width="850" height="34" rx="7" fill="#262b2f" />
-<text x="286" y="761"><tspan class="b">Kraken reports, classified_taxa.csv, stage summaries: </tspan>under 100 MB</text>
-<rect x="16" y="780" width="1104" height="34" rx="7" fill="#262b2f" />
-<text x="30" y="803"><tspan class="b">rebuild_stage.sh: </tspan>recreates any stage from the source and manifest</text>
-<rect x="1130" y="668" width="417" height="62" rx="7" fill="none" stroke="#9fadb3" stroke-dasharray="5 4"/>
-<text x="1146" y="694"><tspan class="b">On hold until the screen finishes</tspan></text>
-<text x="1146" y="716"><tspan class="b"></tspan>Rod-with-ribozyme and shortlist FASTA</text></svg>
+<text x="1402" y="186.5"><tspan class="b">Pending</tspan></text></svg>

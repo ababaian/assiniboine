@@ -13,10 +13,7 @@ This repo holds code and methods only. All data lives in S3, see
 
 ## Pipeline
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="review/pipeline_flow_800dpi_transparent.png">
-  <img alt="Sankey of records through each pipeline stage" src="review/pipeline_flow_800dpi.png">
-</picture>
+![Sankey of records through each pipeline stage](review/pipeline_flow_800dpi.png)
 
 | stage | folder | what it does |
 |---|---|---|

@@ -28,13 +28,11 @@ SCALE = 340 / SOURCE
 DARK = 'dark' in sys.argv[1:]
 GREY, SLATE, GREEN, TEAL, BLUE = '#b9b9b9', '#74909c', '#55c866', '#3c7f98', '#3a3ae0'
 FILTER, PLAIN, RUNNING = '#f7d6d6', '#ececec', '#dcdcfa'
-TEXT, LABEL, LABEL_OPACITY, DASH, NODE, RULE = '#1c1c1c', '#f2f2f2', '.92', '#8a9aa1', '#7d8a8f', '#d5d5d5'
-SOURCE_BAR, MANIFEST_BAR, OTHER_BAR = '#dff3e2', '#e3edf1', '#f2f2f2'
+TEXT, LABEL, LABEL_OPACITY, DASH, NODE = '#1c1c1c', '#f2f2f2', '.92', '#8a9aa1', '#7d8a8f'
 if DARK:
     GREY, SLATE, TEAL, BLUE = '#8c8c8c', '#a3bcc7', '#4fa8c9', '#7474f7'
     FILTER, PLAIN, RUNNING = '#5c2c31', '#2c3136', '#30307a'
-    TEXT, LABEL, LABEL_OPACITY, DASH, NODE, RULE = '#f0f0f0', '#1e2327', '.9', '#9fadb3', '#a3b0b5', '#4a4f53'
-    SOURCE_BAR, MANIFEST_BAR, OTHER_BAR = '#1f4029', '#22363f', '#262b2f'
+    TEXT, LABEL, LABEL_OPACITY, DASH, NODE = '#f0f0f0', '#1e2327', '.9', '#9fadb3', '#a3b0b5'
 out = []
 
 
@@ -135,32 +133,9 @@ label(1200, 222, [('Ongoing: ', f'{FINISHED_CHUNKS} of {TOTAL_CHUNKS} chunks fin
 # Stage 5 has not started
 label(1392, 150 + band / 2, [('Pending', '')], dashed=True, center=True)
 
-# Proposed S3 files, placed under the stages they cover
-
-
-def bar(x, y, width, height, fill, lines, dashed=False):
-    """lines holds (x, y offset, bold, regular) tuples."""
-    style = f'stroke="{DASH}" stroke-dasharray="5 4"' if dashed else ''
-    out.append(f'<rect x="{x}" y="{y}" width="{width}" height="{height}" rx="7" fill="{fill}" {style}/>')
-    for tx, dy, b, r in lines:
-        out.append(f'<text x="{tx}" y="{y + dy}"><tspan class="b">{escape(b)}</tspan>{escape(r)}</text>')
-
-
-out.append(f'<line x1="16" y1="622" x2="1547" y2="622" stroke="{RULE}"/>')
-out.append('<text class="b" x="16" y="652">Proposed S3 files, about 95 GB, not on S3 yet</text>')
-bar(16, 668, 234, 62, SOURCE_BAR, [(30, 26, 'selfloops.v1.1.fa.zst', ''), (30, 48, '', '83 GB, all sequences')])
-bar(270, 668, 850, 62, MANIFEST_BAR, [(286, 26, 'record_manifest: ', '5-10 GB, one row per record'),
-                                   (286, 48, '', 'ID, SRA run, classified, taxid'),
-                                   (606, 48, '', 'Circular or hairpin'),
-                                   (896, 48, '', 'Length, stage reached')])
-bar(270, 738, 850, 34, OTHER_BAR, [(286, 23, 'Kraken reports, classified_taxa.csv, stage summaries: ', 'under 100 MB')])
-bar(16, 780, 1104, 34, OTHER_BAR, [(30, 23, 'rebuild_stage.sh: ', 'recreates any stage from the source and manifest')])
-bar(1130, 668, 417, 62, 'none', [(1146, 26, 'On hold until the screen finishes', ''),
-                                    (1146, 48, '', 'Rod-with-ribozyme and shortlist FASTA')], dashed=True)
-
-head = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1560 830" width="1560" height="830" role="img" aria-labelledby="t d">
+head = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1560 620" width="1560" height="620" role="img" aria-labelledby="t d">
 <title id="t">k2-circ rod screen Sankey</title>
-<desc id="d">Stage 0, {SOURCE:,} records. Stage 1 splits them into {CLASSIFIED:,} classified and {UNCLASSIFIED:,} unclassified. Stage 2 labels {CIRCULAR:,} circular and {HAIRPIN:,} hairpin. Stage 3 keeps {IN_RANGE:,} in range ({IN_CIRC:,} circular, {IN_HP:,} hairpin) and sets aside {OUT_OF_RANGE:,} ({OUT_CIRC:,} circular, {OUT_HP:,} hairpin). Stage 4 is ongoing at {SCREENED / IN_RANGE:.1%} screened. Stage 5 is pending. Proposed S3 files are shown beneath the stages they cover.</desc>
+<desc id="d">Stage 0, {SOURCE:,} records. Stage 1 splits them into {CLASSIFIED:,} classified and {UNCLASSIFIED:,} unclassified. Stage 2 labels {CIRCULAR:,} circular and {HAIRPIN:,} hairpin. Stage 3 keeps {IN_RANGE:,} in range ({IN_CIRC:,} circular, {IN_HP:,} hairpin) and sets aside {OUT_OF_RANGE:,} ({OUT_CIRC:,} circular, {OUT_HP:,} hairpin). Stage 4 is ongoing at {SCREENED / IN_RANGE:.1%} screened. Stage 5 is pending.</desc>
 <style>
 text {{ font-family: "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 14px; fill: {TEXT}; }}
 .b {{ font-weight: 700; }}
