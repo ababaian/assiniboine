@@ -1,15 +1,13 @@
 #!/usr/bin/env python3
 """Sankey figure of the run, labelled by README stage number.
 
-Band width is proportional to record count. Stages 0 to 3 are final. Update
-SCREENED and rerun as stage 4 progresses.
+Band width is proportional to record count. All counts are final, from the
+run that finished 2026-11-02.
 """
 import sys
 from html import escape
 
-SCREENED = 148166244
-FINISHED_CHUNKS, TOTAL_CHUNKS = 79, 95
-DONE_ROWS, ROD, ROD_CONFIDENT, ROD_RIBOZYME = 134666244, 8579005, 1321128, 31553
+ROD, ROD_CONFIDENT, ROD_RIBOZYME, BOTH_STRANDS = 11308939, 1748786, 43887, 14806
 
 SOURCE = 900042456
 CLASSIFIED, UNCLASSIFIED = 305036299, 595006157
@@ -22,16 +20,17 @@ assert CLASSIFIED + UNCLASSIFIED == SOURCE
 assert CIRCULAR + HAIRPIN == UNCLASSIFIED == IN_RANGE + OUT_OF_RANGE
 assert IN_CIRC + IN_HP == IN_RANGE
 assert OUT_CIRC + OUT_HP == OUT_OF_RANGE
+NOT_ROD = IN_RANGE - ROD
 
 SCALE = 340 / SOURCE
 # Pass "dark" to build review/pipeline_flow_dark.svg for black backgrounds
 DARK = 'dark' in sys.argv[1:]
 GREY, SLATE, GREEN, TEAL, BLUE = '#b9b9b9', '#74909c', '#55c866', '#3c7f98', '#3a3ae0'
-FILTER, PLAIN, RUNNING = '#f7d6d6', '#ececec', '#dcdcfa'
+FILTER, PLAIN = '#f7d6d6', '#ececec'
 TEXT, LABEL, LABEL_OPACITY, DASH, NODE = '#1c1c1c', '#f2f2f2', '.92', '#8a9aa1', '#7d8a8f'
 if DARK:
     GREY, SLATE, TEAL, BLUE = '#8c8c8c', '#a3bcc7', '#4fa8c9', '#7474f7'
-    FILTER, PLAIN, RUNNING = '#5c2c31', '#2c3136', '#30307a'
+    FILTER, PLAIN = '#5c2c31', '#2c3136'
     TEXT, LABEL, LABEL_OPACITY, DASH, NODE = '#f0f0f0', '#1e2327', '.9', '#9fadb3', '#a3b0b5'
 out = []
 
@@ -79,7 +78,7 @@ stage(16, 0, 'Source')
 stage(270, 1, 'Kraken filter', FILTER, funnel=True)
 stage(590, 2, 'Circular overlap')
 stage(880, 3, 'Length filter', FILTER, funnel=True)
-stage(1130, 4, 'Rod screen', RUNNING)
+stage(1130, 4, 'Rod screen')
 stage(1392, 5, 'Results')
 
 # Stage 0
@@ -117,25 +116,22 @@ label(1146, 420 + (oc + oh) / 2, [('Out of range: ', f'{OUT_OF_RANGE:,}'), ('', 
                                   ('', f'- Hairpin: {OUT_HP:,}')], center=True)
 label(960, 232, [('In range: ', f'{IN_RANGE:,}'), ('', f'- Circular: {IN_CIRC:,}'), ('', f'- Hairpin: {IN_HP:,}')])
 
-# Stage 4 is running: the bar fills as records are screened
-band = h(IN_RANGE)
+# Stage 4 splits the in-range band into rod and not rod; only rod goes on
+band, rod = h(IN_RANGE), h(ROD)
 node(1130, 150, 150 + band, BLUE)
-out.append(f'<rect x="1136" y="150" width="{226 * SCREENED / IN_RANGE:.1f}" height="{band:.2f}" fill="{BLUE}" opacity=".7"/>')
-out.append(f'<rect x="1136" y="150" width="226" height="{band:.2f}" fill="none" stroke="{BLUE}" '
-           'stroke-width="1.2" stroke-dasharray="4 3"/>')
-label(1146, 150 + band / 2, [('Screening ongoing: ', f'{SCREENED / IN_RANGE:.1%}')], center=True)
+ribbon(1136, 150, 150 + rod, 1392, 150, 150 + rod, BLUE)
+ribbon(1136, 150 + rod, 150 + band, 1330, 150 + rod, 150 + band, GREY)
+node(1330, 150 + rod, 150 + band)
+label(1172, 222, [('Screened: ', f'{IN_RANGE:,}'), ('', f'- Rod: {ROD:,}'), ('', f'- Not rod: {NOT_ROD:,}')])
 
-label(1200, 222, [('Ongoing: ', f'{FINISHED_CHUNKS} of {TOTAL_CHUNKS} chunks finished'),
-                  ('', f'- Screened: {DONE_ROWS:,}'), ('', f'- Rod: {ROD:,}'),
-                  ('', f'- Rod with confidence \u2265 0.8: {ROD_CONFIDENT:,}'),
-                  ('', f'- Rod with a ribozyme: {ROD_RIBOZYME:,}')])
+# Stage 5
+node(1392, 150, 150 + rod, BLUE)
+label(1406, 140, [('Rod: ', f'{ROD:,}'), ('', f'- Confidence \u2265 0.8: {ROD_CONFIDENT:,}'),
+                  ('', f'- With a ribozyme: {ROD_RIBOZYME:,}'), ('', f'- Both strands: {BOTH_STRANDS:,}')])
 
-# Stage 5 has not started
-label(1392, 150 + band / 2, [('Pending', '')], dashed=True, center=True)
-
-head = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1560 620" width="1560" height="620" role="img" aria-labelledby="t d">
+head = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1700 620" width="1700" height="620" role="img" aria-labelledby="t d">
 <title id="t">k2-circ rod screen Sankey</title>
-<desc id="d">Stage 0, {SOURCE:,} records. Stage 1 splits them into {CLASSIFIED:,} classified and {UNCLASSIFIED:,} unclassified. Stage 2 labels {CIRCULAR:,} circular and {HAIRPIN:,} hairpin. Stage 3 keeps {IN_RANGE:,} in range ({IN_CIRC:,} circular, {IN_HP:,} hairpin) and sets aside {OUT_OF_RANGE:,} ({OUT_CIRC:,} circular, {OUT_HP:,} hairpin). Stage 4 is ongoing at {SCREENED / IN_RANGE:.1%} screened. Stage 5 is pending.</desc>
+<desc id="d">Stage 0, {SOURCE:,} records. Stage 1 splits them into {CLASSIFIED:,} classified and {UNCLASSIFIED:,} unclassified. Stage 2 labels {CIRCULAR:,} circular and {HAIRPIN:,} hairpin. Stage 3 keeps {IN_RANGE:,} in range ({IN_CIRC:,} circular, {IN_HP:,} hairpin) and sets aside {OUT_OF_RANGE:,} ({OUT_CIRC:,} circular, {OUT_HP:,} hairpin). Stage 4 screens all {IN_RANGE:,} and calls {ROD:,} rod. Stage 5 finds {ROD_RIBOZYME:,} rod with a ribozyme, {BOTH_STRANDS:,} of them on both strands.</desc>
 <style>
 text {{ font-family: "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 14px; fill: {TEXT}; }}
 .b {{ font-weight: 700; }}

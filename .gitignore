@@ -49,6 +49,9 @@ Lebowski/
 04_rod_screen/logs/
 04_rod_screen/claims/
 04_rod_screen/rfam/
+06_package/work/
+06_package/staging/
+06_package/upload/
 # the October run's outputs, kept on disk but not in git
 run_outputs_2026-10/
 # scratch
