@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1560 620" width="1560" height="620" role="img" aria-labelledby="t d">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1700 620" width="1700" height="620" role="img" aria-labelledby="t d">
 <title id="t">k2-circ rod screen Sankey</title>
-<desc id="d">Stage 0, 900,042,456 records. Stage 1 splits them into 305,036,299 classified and 595,006,157 unclassified. Stage 2 labels 562,743,416 circular and 32,262,741 hairpin. Stage 3 keeps 161,292,329 in range (140,330,297 circular, 20,962,032 hairpin) and sets aside 433,713,828 (422,413,119 circular, 11,300,709 hairpin). Stage 4 is ongoing at 91.9% screened. Stage 5 is pending.</desc>
+<desc id="d">Stage 0, 900,042,456 records. Stage 1 splits them into 305,036,299 classified and 595,006,157 unclassified. Stage 2 labels 562,743,416 circular and 32,262,741 hairpin. Stage 3 keeps 161,292,329 in range (140,330,297 circular, 20,962,032 hairpin) and sets aside 433,713,828 (422,413,119 circular, 11,300,709 hairpin). Stage 4 screens all 161,292,329 and calls 11,308,939 rod. Stage 5 finds 43,887 rod with a ribozyme, 14,806 of them on both strands.</desc>
 <style>
 text { font-family: "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 14px; fill: #f0f0f0; }
 .b { font-weight: 700; }
@@ -21,7 +21,7 @@ text { font-family: "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 <path d="M880 92h26l-10 12v11l-6 3v-14z" fill="#f2b8b8"/>
 <rect x="912" y="90" width="163" height="30" rx="6" fill="#5c2c31"/>
 <text class="b" x="923" y="110">3  Length filter</text>
-<rect x="1130" y="90" width="136" height="30" rx="6" fill="#30307a"/>
+<rect x="1130" y="90" width="136" height="30" rx="6" fill="#2c3136"/>
 <text class="b" x="1141" y="110">4  Rod screen</text>
 <rect x="1392" y="90" width="110" height="30" rx="6" fill="#2c3136"/>
 <text class="b" x="1403" y="110">5  Results</text>
@@ -61,15 +61,16 @@ text { font-family: "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 <text x="984" y="276.0"><tspan class="b"></tspan>- Circular: 140,330,297</text>
 <text x="984" y="298.0"><tspan class="b"></tspan>- Hairpin: 20,962,032</text>
 <rect x="1130" y="150.00" width="6" height="60.93" fill="#7474f7"/>
-<rect x="1136" y="150" width="207.6" height="60.93" fill="#7474f7" opacity=".7"/>
-<rect x="1136" y="150" width="226" height="60.93" fill="none" stroke="#7474f7" stroke-width="1.2" stroke-dasharray="4 3"/>
-<rect x="1146" y="164.5" width="226" height="32" rx="7" fill="#1e2327" fill-opacity=".9"/>
-<text x="1156" y="186.5"><tspan class="b">Screening ongoing: </tspan>91.9%</text>
-<rect x="1200" y="222.0" width="347" height="120" rx="7" fill="#1e2327" fill-opacity=".9"/>
-<text x="1210" y="244.0"><tspan class="b">Ongoing: </tspan>79 of 95 chunks finished</text>
-<text x="1224" y="266.0"><tspan class="b"></tspan>- Screened: 134,666,244</text>
-<text x="1224" y="288.0"><tspan class="b"></tspan>- Rod: 8,579,005</text>
-<text x="1224" y="310.0"><tspan class="b"></tspan>- Rod with confidence ≥ 0.8: 1,321,128</text>
-<text x="1224" y="332.0"><tspan class="b"></tspan>- Rod with a ribozyme: 31,553</text>
-<rect x="1392" y="164.5" width="80" height="32" rx="7" fill="none" stroke="#9fadb3" stroke-dasharray="5 4"/>
-<text x="1402" y="186.5"><tspan class="b">Pending</tspan></text></svg>
+<path d="M1136 150.00C1264.0 150.00 1264.0 150.00 1392 150.00L1392 154.27C1264.0 154.27 1264.0 154.27 1136 154.27Z" fill="#7474f7" />
+<path d="M1136 154.27C1233.0 154.27 1233.0 154.27 1330 154.27L1330 210.93C1233.0 210.93 1233.0 210.93 1136 210.93Z" fill="#8c8c8c" />
+<rect x="1330" y="154.27" width="6" height="56.66" fill="#a3b0b5"/>
+<rect x="1172" y="222.0" width="209" height="76" rx="7" fill="#1e2327" fill-opacity=".9"/>
+<text x="1182" y="244.0"><tspan class="b">Screened: </tspan>161,292,329</text>
+<text x="1196" y="266.0"><tspan class="b"></tspan>- Rod: 11,308,939</text>
+<text x="1196" y="288.0"><tspan class="b"></tspan>- Not rod: 149,983,390</text>
+<rect x="1392" y="150.00" width="6" height="4.27" fill="#7474f7"/>
+<rect x="1406" y="140.0" width="269" height="98" rx="7" fill="#1e2327" fill-opacity=".9"/>
+<text x="1416" y="162.0"><tspan class="b">Rod: </tspan>11,308,939</text>
+<text x="1430" y="184.0"><tspan class="b"></tspan>- Confidence ≥ 0.8: 1,748,786</text>
+<text x="1430" y="206.0"><tspan class="b"></tspan>- With a ribozyme: 43,887</text>
+<text x="1430" y="228.0"><tspan class="b"></tspan>- Both strands: 14,806</text></svg>

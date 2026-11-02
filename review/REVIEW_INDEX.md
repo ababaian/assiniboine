@@ -1,8 +1,7 @@
 # Review index: Logan selfloops rerun, October to November 2026
 
 Files to include in a review of this run, by pipeline step. Paths are relative to
-`~/k2-circ-runs` on watson. Last updated 2026-11-01 22:30 UTC, while step 4 was
-still running.
+`~/k2-circ-runs` on watson. Last updated 2026-11-02, after the run finished.
 
 Status: **ready** = exists now. **pending** = the pipeline writes it when it
 finishes. **to build** = proposed review table, not made yet. Sizes marked `~` are
@@ -17,10 +16,10 @@ before the first `_` is the SRA run. Any table below can be joined on it.
 | 1 Kraken2 | 900,042,456 | 595,006,157 | 305,036,299 classified | Done |
 | 2 Overlap | 595,006,157 | 595,006,157 | 0 (labels only) | Done |
 | 3 Length | 595,006,157 | 161,292,329 | 433,713,828 parked | Done |
-| 4 Rod screen | 161,292,329 | pending | | 79 of 95 chunks done |
-| 5 Results | pending | pending | | Waiting for step 4 |
+| 4 Rod screen | 161,292,329 | 11,308,939 rod | 149,983,390 not rod | Done 11-02 05:34 |
+| 5 Results | 11,308,939 | 2,047 shortlisted | | Done 11-02 05:37 |
 
-`review/pipeline_flow.svg` is a Sankey of this flow with counts as of 2026-11-01 23:03 UTC. `review/build_flow_figure.py` rebuilds it.
+`review/pipeline_flow.svg` is a Sankey of this flow with final counts. `review/build_flow_figure.py` rebuilds it.
 
 ## Step 0: source
 
@@ -45,8 +44,7 @@ The archive itself (`selfloops.v1.1.fa.zst`, 83 GB) does not belong in the revie
 | `review/build_step1_tables.py` | ready | Rebuilds those three tables and checks them against the run totals |
 | `01_kraken_filter/rerun_calls.log` | ready | Shows the per-record calls matched the original reports |
 | `01_kraken_filter/classified/part_NNN.kout.zst` | ready | Reference only. Per-record calls, 305,036,299 lines in 21 files (12 GB) |
-| `review/classified_records.tsv.zst` | to build | One row per classified record: ID, run, taxid, length. Taken from the kout files, no sequences (~4 GB). Join on taxid to `classified_taxa.csv` for the name |
-| `review/unclassified_records.tsv.zst` | to build | One row per unclassified record: ID, run, length. Taken from the FASTA headers (~6 GB) |
+| `06_package/staging/run-2026-11/manifest/part_NNN.tsv.zst` | building | `record_manifest`, which replaces the two proposed per-record lists: one row per source record with ID, run, length, Kraken2 status and taxid, closure class and the stage it ended at. See `06_package/README.md` |
 | `review/classified_by_run.csv` | to build | Classified share and top clade for each SRA run, to find runs that dominate the classified set |
 
 Known viroids are removed here on purpose, so they never reach the rod screen.
@@ -78,15 +76,15 @@ same 170 GB, so they are a second copy of it and do not need to go in the review
 
 | File | Status | Why it is in the review |
 |---|---|---|
-| `04_rod_screen/SUMMARY_screen.txt` | pending | Chunks completed, input records, result rows, unresolved mismatches |
-| `04_rod_screen/SCREEN.DONE` | pending | Written only if every chunk's rows match its input |
-| `04_rod_screen/MISMATCH.txt` | pending | Exists only if a chunk failed its row check. Absent so far |
+| `04_rod_screen/SUMMARY_screen.txt` | ready | Chunks completed, input records, result rows, unresolved mismatches |
+| `04_rod_screen/SCREEN.DONE` | ready | Written only if every chunk's rows match its input |
+| `04_rod_screen/MISMATCH.txt` | absent | Exists only if a chunk failed its row check. Never written |
 | `run_all.log`, `run_finish.log` | ready | Full run history, including retries and the extra workers |
 | `04_rod_screen/run.sh`, `run_extra.sh` | ready | Worker settings and the completion gate |
-| `review/chunk_qc.csv` | to build | For each chunk: rows, rod, rod share, rod with ribozyme, mean confidence, share below the confidence floor. Rod share runs from 0.02% to 22.83% per chunk in finished chunks, and this is the table that shows why |
-| `review/rod_by_class_length.csv` | to build | Rod share by overlap class and length band, to show whether hairpins or short records drive the rod calls |
-| `review/ribozyme_families.csv` | to build | Rod and ribozyme counts by family, strand and corroboration |
-| `review/october_recall.csv` | to build | Each of the 2,056 October shortlist circles with its new class and ribozyme count. All were in the input. The 164 reached in the first 22 chunks were all called rod again |
+| `review/chunk_qc.csv` | ready | For each chunk: rows, rod, rod share, rod at confidence 0.8, rod with ribozyme, split by closure class. Rod share runs from 0.02% to 22.83% and tracks hairpin share (r = 0.79) |
+| `review/rod_by_class_length.csv` | ready | Rod share by overlap class and length band. Hairpins under 500 nt are rod at 14.90%, against 6.05% for circles |
+| `review/ribozyme_families.csv` | ready | Rod records by ribozyme family, and how many of them have ribozymes on both strands |
+| `review/october_recall.csv` | ready | Each of the 2,056 October shortlist circles with its new call, ribozymes and shortlist tier. All are rod again, 2,052 keep a ribozyme, 1,097 are on this shortlist |
 | `review/positive_controls.csv` | to build | Classifier calls on the known viroid-like records from step 1. These need a separate run because they never entered the screen |
 
 `04_rod_screen/results/chunk_NNN.csv` is reference only (one row per screened circle,
@@ -99,17 +97,18 @@ in-range sequences.
 
 | File | Status | Why it is in the review |
 |---|---|---|
-| `05_results/SUMMARY_results.txt` | pending | Rod, ribozyme and shortlist counts |
-| `05_results/shortlist.csv` | pending | The main output |
-| `05_results/rod_with_ribozyme.csv` | pending | Every rod call with at least one ribozyme |
-| `05_results/rod_all.csv` | pending | Every rod call. Reference only because of its size |
+| `05_results/SUMMARY_results.txt` | ready | Rod, ribozyme and shortlist counts |
+| `05_results/shortlist.csv` | ready | The main output |
+| `05_results/rod_with_ribozyme.csv` | ready | Every rod call with at least one ribozyme |
+| `05_results/rod_all.csv` | ready | Every rod call. Reference only because of its size |
 | `05_results/make_results.sh` | ready | The shortlist rules |
 | `review/shortlist_annotated.csv` | to build | Shortlist plus SRA run, overlap class and tier |
 | `review/run_comparison.md` | to build | This run beside October, stating why they differ |
 
 Tier 2 of the shortlist is cut at `TOP_N=2000`, so candidates can meet the criteria
-and still be left out. `make_results.sh` prints how many under "NOT published".
-Review that number with the shortlist.
+and still be left out. `make_results.sh` prints how many under "NOT published":
+10,259 in this run. The cut falls inside 2,210 circles tied at confidence 1.000, so
+which 2,000 are kept is arbitrary.
 
 ## Supporting material
 
