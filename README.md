@@ -22,6 +22,7 @@ This repo holds code and methods only. All data lives in S3, see
 | 3 | [`03_length_filter/`](03_length_filter/) | keep 200 to 6000 nt |
 | 4 | [`04_rod_screen/`](04_rod_screen/) | fold, search for ribozymes, classify rod |
 | 5 | [`05_results/`](05_results/) | reduce to the annotated rod table |
+| 7 | [`07_dotbracket/`](07_dotbracket/) | refold every rod and keep its dot-bracket structure |
 | | [`model/`](model/) | the rodnotrod classifier: features, weights, S3 location |
 | | [`env/`](env/) | the conda environment |
 | | [`analysis/`](analysis/) | side analyses, not part of the screen |
@@ -68,6 +69,10 @@ manifest with [`06_package/rebuild_stage.sh`](06_package/rebuild_stage.sh).
 **Stage 5: every rod, annotated, with sequence** (956 MB)
 
     s3://petadex/circs-results/run-2026-11/05_results/rods.csv.zst
+
+**Stage 7: dot-bracket structure of every rod** (548 MB)
+
+    s3://petadex/circs-results/run-2026-11/07_dotbracket/rods_dotbracket.tsv.zst
 
 **Pipeline and model** (32 MB)
 

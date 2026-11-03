@@ -52,6 +52,7 @@ Lebowski/
 06_package/work/
 06_package/staging/
 06_package/upload/
+07_dotbracket/work/
 # the October run's outputs, kept on disk but not in git
 run_outputs_2026-10/
 # scratch
