@@ -28,15 +28,20 @@ Only the circular class carries that duplication, so only it is trimmed.
 
 ## The three classes
 
-Only about 63% of selfloops records carry the overlap. The rest are not short
+Most selfloops records carry the overlap, but not all. The rest are not short
 records failing a guard; they are longer on average. The GFA self-link
-orientation in the header separates them:
+orientation in the header separates them. Shares are from the November 2026
+run, over all 900,042,456 source records and over the 595,006,157 that stage 1
+keeps:
 
-| class | header links | share | terminal structure | trimmed |
-|---|---|---|---|---|
-| circular | `L:-:x:-` and `L:+:x:+` | ~63% | first 30 == last 30 | 30 nt |
-| hairpin | `L:-:x:+` or `L:+:x:-` | ~37% | terminal 30-mer is its own reverse complement, 100% of them | no |
-| unmatched | header and sequence disagree | ~0% | none established | no |
+| class | header links | source | after stage 1 | terminal structure | trimmed |
+|---|---|---:|---:|---|---|
+| circular | `L:-:x:-` and `L:+:x:+` | 90.6% | 94.6% | first 30 == last 30 | 30 nt |
+| hairpin | `L:-:x:+` or `L:+:x:-` | 9.4% | 5.4% | terminal 30-mer is its own reverse complement | no |
+| unmatched | header and sequence disagree | 0 | 0 | none established | no |
+
+An earlier version of this table gave about 63% and 37%. That came from a
+sample drawn with near-equal classes, so it measured nothing about class shares.
 
 A unitig whose terminal 30-mer is its own reverse complement is adjacent to
 itself on the opposite strand, which creates a self-loop edge in the assembly
