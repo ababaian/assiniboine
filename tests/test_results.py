@@ -12,7 +12,7 @@ from assiniboine.results import (
     unique_columns,
 )
 from assiniboine.sequences import read_fasta
-from assiniboine.topology import label_file
+from assiniboine.topology import label_file, strip_label
 
 
 @pytest.fixture
@@ -107,7 +107,7 @@ def test_shortlist_tier2_is_ranked_and_capped():
     assert counts["tier2_lowest_confidence"] == 0.9
 
 
-def test_reduce_screen_writes_the_three_tables(tmp_path, screened_chunk):
+def test_reduce_screen_writes_the_fasta_and_the_three_tables(tmp_path, screened_chunk, source_fasta):
     chunk, result = screened_chunk
     out = tmp_path / "out"
     counts = reduce_screen([(chunk, result)], out)
@@ -115,16 +115,26 @@ def test_reduce_screen_writes_the_three_tables(tmp_path, screened_chunk):
     rods = list(csv.DictReader(open(out / "rods.csv", newline="")))
     assert counts["rod"] == len(rods) > 0
     assert list(rods[0])[:3] == ["sample_name", "run", "closure"]
-    assert list(rods[0])[-1] == "sequence"
+    assert "sequence" not in rods[0]
     assert all(r["predicted_class"] == "rod" for r in rods)
 
-    sequences = {r.id: r.sequence for r in read_fasta(chunk)}
-    assert all(r["sequence"] == sequences[r["sample_name"]] for r in rods)
+    # rods.fa: one record per rods.csv row, same order, the source header
+    # untouched and the screened (trimmed, upper-case) sequence.
+    fasta = list(read_fasta(out / "rods.fa"))
+    assert [r.id for r in fasta] == [r["sample_name"] for r in rods]
+    source_headers = {r.id: r.header for r in read_fasta(source_fasta)}
+    screened = {r.id: r for r in read_fasta(chunk)}
+    for record in fasta:
+        assert record.header == source_headers[record.id]
+        assert record.header == strip_label(screened[record.id].header)
+        assert record.sequence == screened[record.id].sequence
+    assert all(len(r.sequence) == int(row["length"]) for r, row in zip(fasta, rods))
     assert all(r["run"] == r["sample_name"].split("_")[0] for r in rods)
     assert set(r["closure"] for r in rods) <= {"circular", "hairpin", "unmatched"}
 
     with_ribozyme = list(csv.DictReader(open(out / "rods_with_ribozyme.csv", newline="")))
     assert counts["rod_with_ribozyme"] == len(with_ribozyme)
+    assert "sequence" not in with_ribozyme[0]
     assert all(int(r["n_ribozymes"]) >= 1 for r in with_ribozyme)
 
     shortlist = list(csv.DictReader(open(out / "shortlist.csv", newline="")))

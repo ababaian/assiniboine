@@ -24,7 +24,7 @@ mkdir -p "$WORK_DIR"
 
 log "synthetic source archive"
 $MAKE source "$SOURCE_URL" --records 5000
-./workflow/run_screen.sh 0
+./workflow/assiniboine.sh 0
 
 log "stage 1 stand-in: Kraken2 calls and unclassified records"
 STAGE1=$WORK_DIR/01_kraken_filter
@@ -32,7 +32,7 @@ $MAKE stage1 "$SOURCE_URL" "$STAGE1" --records-per-part "$COMPUTE_RECORDS_PER_PA
 assiniboine sum-counts "$STAGE1"/counts/part_*.tsv | tee "$STAGE1/summary.txt"
 mark_done "$STAGE1"
 
-./workflow/run_screen.sh 2 3
+./workflow/assiniboine.sh 2 3
 
 log "stage 4 stand-in: chunks, then a synthetic screen result per chunk"
 STAGE4=$WORK_DIR/04_rod_screen
@@ -46,10 +46,10 @@ done
 echo "chunks completed  $(ls "$STAGE4"/logs/*.done | wc -l)" > "$STAGE4/summary.txt"
 mark_done "$STAGE4"
 
-./workflow/run_screen.sh 5 6
+./workflow/assiniboine.sh 5 6
 
 if command -v RNAfold > /dev/null; then
-    ./workflow/run_screen.sh 7
+    ./workflow/assiniboine.sh 7
 else
     log "RNAfold is not installed; skipping stage 7"
 fi

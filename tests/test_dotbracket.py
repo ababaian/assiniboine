@@ -1,4 +1,3 @@
-import csv
 from array import array
 
 import pytest
@@ -17,13 +16,11 @@ def fake_rnafold(fasta_path, out_path):
 
 
 @pytest.fixture
-def rods_csv(tmp_path):
-    path = tmp_path / "rods.csv"
-    with open(path, "w", newline="") as stream:
-        writer = csv.writer(stream)
-        writer.writerow(["sample_name", "length", "sequence"])
+def rods_fa(tmp_path):
+    path = tmp_path / "rods.fa"
+    with open(path, "w") as stream:
         for i, length in enumerate([300, 1200, 250, 900, 600, 400, 2000]):
-            writer.writerow([f"rod{i}", length, "ACGU"[0] * length])
+            stream.write(f">rod{i} ka:f:1.000 L:-:{i}:- L:+:{i}:+\n{'A' * length}\n")
     return path
 
 
@@ -33,9 +30,9 @@ def test_assign_parts_deals_longest_first_round_robin():
     assert list(assign_parts(lengths, 2)) == [0, 0, 1, 1]
 
 
-def test_split_and_collect_round_trip_in_rods_order(tmp_path, rods_csv):
+def test_split_and_collect_round_trip_in_rods_order(tmp_path, rods_fa):
     parts_dir = tmp_path / "parts"
-    assert split_rods(rods_csv, parts_dir, n_parts=3) == 7
+    assert split_rods(rods_fa, parts_dir, n_parts=3) == 7
     part_files = sorted(parts_dir.glob("part_*.fa"))
     assert len(part_files) == 3
 
