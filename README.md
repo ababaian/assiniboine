@@ -11,10 +11,56 @@ candidates whose ribozymes sit on both strands. The published runs screened
 Logan's archive of every circular contig assembled from the Sequence Read
 Archive, 900 million records; the pipeline is the same at any size.
 
-## The pipeline
+
+## Assiniboine Data Directory
+```
+S3 Bucket
+
+⦿ s3://assiniboine/
+├── fa/               # Source Fasta Files
+│   └─── ctrl/        # Potentially useful GenBank sequence collections
+│         └────────── `*.fa`                # Fasta file
+│         └────────── `*.csv`               # assiniboine pipeline features
+│
+│   └─── lsc/         # Logan Simple Circles 
+│         └────────── `LSC_v1.1.fa.zst`      # Complete Logan self-loops
+│         └────────── `LSC-1M_v1.1.fa.zst`   # 1M random subset LSC
+│         └────────── `LSC-100K_v1.1.fa.zst` # 100K random subset LSC1M
+│         └────────── `LSC-1K_v1.1.fa.zst`   # 1K random subset LSC1M
+│
+│   └─── rod/         # Predicated Rod-like Elements (v1.1)
+│         └────────── `ROD_v1.1.fa.zst`      # Rod-like Element set
+│         └────────── `ROD-1M_v1.1.fa.zst`   # 1M randomly selected ROD
+│         └────────── `ROD-100K_v1.1.fa.zst` # 100K randomly selected ROD1M
+│         └────────── `ROD-1K_v1.1.fa.zst`   # 1K   randomly selected ROD100K
+│         └────────── `ROD_v1.1.csv.zst`     # Assinibone features CSV
+├── meta/             # SRA Meta-data
+│   └─── `SRA-metadata.parquet`              # SRA Run Info and Metadata
+└─────── README.md    # This README
+```
+
+```{bash}
+# Assiniboine Bucket: s3://assiniboine/
+
+## List the bucket
+aws s3 ls s3://assiniboine/fa/
+
+## AWS CLI Download
+aws s3 cp s3://assiniboine/fa/ctrl/obelisk_zheludev.fa ./
+
+## WGET Download
+wget https://s3.amazonaws.com/assiniboine/fa/ctrl/obelisk_zheludev.fa
+
+wget https://s3.amazonaws.com/assiniboine/fa/rod/ROD-1K_v1.1.fa.zst
 
 ```
- 0  fetch the source archive
+
+## Pipeline
+
+```
+./workflow/
+
+ 0  fetch the source data
  1  Kraken2 filter          drop every record matching reference database
  2  circular overlap        label how each record closes; trim the 30 nt overlap
  3  length filter           keep [200,6,000] nt contigs
@@ -24,49 +70,41 @@ Archive, 900 million records; the pipeline is the same at any size.
  7  dot-bracket             the folded structure of every rod
 ```
 
-| stage | script | rule |
-|---|---|---|
-| 0 | `workflow/00_source/fetch_source.sh` | |
-| 1 | `workflow/01_kraken_filter/kraken_filter.sh` | Kraken2 |
-| 2 | `workflow/02_circular_overlap/label_overlap.sh` | `src/assiniboine/topology.py` |
-| 3 | `workflow/03_length_filter/length_filter.sh` | `src/assiniboine/filtering.py` |
-| 4 | `workflow/04_rod_screen/rod_screen.sh` | the Lebowski bundle (`docs/dependencies.md`) |
-| 5 | `workflow/05_results/make_results.sh` | `src/assiniboine/results.py` |
-| 6 | `workflow/06_package/package_run.sh` | `src/assiniboine/manifest.py` |
-| 7 | `workflow/07_dotbracket/fold_rods.sh` | `src/assiniboine/dotbracket.py` |
-
 ## Quick start
 
 ```bash
+# Initialize
 conda env create -f environment.yml && conda activate assiniboine   # tools + the package
 ./scripts/ops/check_dependencies.sh                                 # what is in place
+
+# Run test code
 pytest                                                              # the tests
 ./scripts/ops/run_example.sh                                        # a miniature run on synthetic data, in seconds
-```
 
-For a real run, write a settings file naming your Kraken2 database and
-sizing the parallelism to your machine, then run the stages in order:
+# Configure toml file for run parameters
+cp config/defaults.toml config/runs/run_<YYMMDD>.toml
+# Set-up run.toml for your system
 
-```bash
-cp config/runs/2026-11.toml config/runs/my_run.toml   # and edit it
+# Run Assiniboine
 export ASSINIBOINE_CONFIG=config/runs/my_run.toml
-./workflow/run_screen.sh                              # or: ./workflow/run_screen.sh 2 3
+./workflow/assiniboine.sh  
 ```
 
-Every stage writes under `work/`, is skipped once finished, and resumes
+`assiniboine.sh` stages write to `work/`. Stages are skipped once finished, and resumes
 where it stopped. `docs/installation.md` covers the two external resources
 stages 1 and 4 need: a Kraken2 database and the classifier bundle.
 
-## Layout
+## Repository Layout
 
 ```
-config/           settings: defaults.toml defines everything, runs/*.toml override
-src/assiniboine/  the rules each stage applies, as a Python package with a CLI
-workflow/         one Bash script per stage, plus the driver run_screen.sh
-scripts/          side analyses and helpers, including the synthetic example run
-tests/            pytest suite over the package and the example run
-docs/             how it works, how to configure, reproduce and extend it
-docs/runs/        records of the published runs and where their data is
+.assiniboine/
+  config/           settings: defaults.toml defines everything, runs/*.toml override
+  src/assiniboine/  the rules each stage applies, as a Python package with a CLI
+  workflow/         one Bash script per stage, plus the driver run_screen.sh
+  scripts/          side analyses and helpers, including the synthetic example run
+  tests/            pytest suite over the package and the example run
+  docs/             how it works, how to configure, reproduce and extend it
+  docs/runs/        records of the published runs and where their data is
 ```
 
 ## Documentation

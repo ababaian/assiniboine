@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Run the screen end to end, or just the stages named on the command line.
 #
-#   ./workflow/run_screen.sh            # stages 0 to 7 in order
-#   ./workflow/run_screen.sh 2 3        # only stages 2 and 3
+#   ./workflow/assiniboine.sh            # stages 0 to 7 in order
+#   ./workflow/assiniboine.sh 2 3        # run only stages 2 and 3
 #
 # Every stage is resume-safe: one that has already finished (its DONE marker
 # exists) is skipped, and the expensive stages (1, 4, 7) also skip the parts
