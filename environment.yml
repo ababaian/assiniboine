@@ -1,0 +1,29 @@
+# The conda environment for the whole pipeline.
+#
+#   conda env create -f environment.yml
+#   conda activate assiniboine
+#
+# See docs/dependencies.md for what each tool is used for.
+name: assiniboine
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.12
+  - pip
+  - pytest
+  # command-line tools the workflow scripts call
+  - zstd            # the source archive and the manifest are Zstandard-compressed
+  - awscli          # stage 0 fetches the source from S3
+  - kraken2         # stage 1
+  - viennarna       # RNAfold: stage 4 (through the external classifier) and stage 7
+  - infernal        # cmsearch and cmpress: stage 4
+  - emboss          # getorf: stage 4
+  # the external rod classifier (Lebowski) is Python and needs these.
+  # scikit-learn must match the version its model was pickled with.
+  - scikit-learn=1.9.1
+  - pandas
+  - numpy
+  - scipy
+  - pip:
+      - -e .

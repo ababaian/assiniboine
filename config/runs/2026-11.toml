@@ -1,0 +1,25 @@
+# Settings of the November 2026 run, the one described in docs/runs/2026-11.md.
+#
+# Only the keys that differ from config/defaults.toml appear here. The method
+# sections equal the defaults; the run is what the defaults were set from.
+# The [compute] values are what a 480-core, 1.5 TB machine could carry and
+# are not meant for anything smaller.
+
+[run]
+name = "2026-11"
+
+[kraken]
+# A core_nt index built in October 2025, 340 GB. Set this to your own copy.
+database = "k2_core_nt"
+
+[compute]
+records_per_part = 45000000
+kraken_workers = 10
+kraken_threads = 32
+part_workers = 12
+records_per_chunk = 1704636
+screen_workers = 16
+screen_threads = 30
+screen_batch_size = 50000
+dotbracket_parts = 460
+dotbracket_workers = 460

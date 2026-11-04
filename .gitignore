@@ -1,65 +1,37 @@
-# Whitelist: ignore everything, then re-admit only code and documentation.
-# This repo holds METHODS. Data lives in S3 (see README).
-*
-!*/
-# code
-!*.sh
-!*.py
-# documentation
-!*.md
-# small text results that document what each stage produced
-!SUMMARY_*.txt
-!LENGTH_HIST.txt
-!.gitignore
-# never, under any circumstances
-# infrastructure planning: account ids, quotas and spend. Keep it out of git.
-EC2_PLAN.md
-**/EC2_PLAN.md
+# This repository holds code, settings and documentation. Data stays out.
+
+# where the workflow writes every stage's output (config: [run] work_dir)
+work/
+
+# the external classifier bundle (see docs/dependencies.md)
+Lebowski/
+Lebowski_*.tar.gz
+
+# bulk data formats, wherever they land
 *.fa
 *.fasta
-*.fa.*
+*.fa.zst
 *.csv
 *.tsv
 *.zst
 *.gz
+*.parquet
 *.pkl
 *.cm
 *.k2d
-*.hist
-*.runs
-*.done
-*.log
-*.raw
-# upstream collaborator code + trained model: provenance is theirs, not ours
-Lebowski/
-# stage working directories and bulk outputs
-01_kraken_filter/parts/
-01_kraken_filter/unclassified/
-01_kraken_filter/logs/
-01_kraken_filter/claims/
-01_kraken_filter/reports/
-01_kraken_filter/counts/
-02_circular_overlap/labelled/
-03_length_filter/lt200/
-03_length_filter/in_range/
-03_length_filter/gt6000/
-03_length_filter/lenhist/
-04_rod_screen/chunks/
-04_rod_screen/results/
-04_rod_screen/logs/
-04_rod_screen/claims/
-04_rod_screen/rfam/
-06_package/work/
-06_package/staging/
-06_package/upload/
-07_dotbracket/work/
-# the October run's outputs, kept on disk but not in git
-run_outputs_2026-10/
-# scratch
-05_benchmarks/
-scratch/
-# the pipeline figure
-!review/pipeline_flow.svg
-!review/pipeline_flow_dark.svg
-!review/pipeline_flow_800dpi.png
-!review/pipeline_flow_800dpi_transparent.png
+
+# but keep the small test fixtures
+!tests/data/*
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+
+# editors
+.vscode/
+.idea/
+*.swp

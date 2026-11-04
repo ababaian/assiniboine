@@ -1,0 +1,84 @@
+# Default settings for the Assiniboine screen.
+#
+# Every setting the pipeline reads is defined here with its default. To run
+# with different values, write a run file that overrides only what changes
+# (see config/runs/2026-11.toml) and point ASSINIBOINE_CONFIG at it:
+#
+#     export ASSINIBOINE_CONFIG=config/runs/my_run.toml
+#     ./workflow/run_screen.sh
+#
+# A run file may only override keys that exist here; an unknown key is an
+# error. The sections above [compute] are the *method*: changing them changes
+# the science. [compute] only changes how fast the same answer arrives.
+# docs/configuration.md explains every setting.
+
+[run]
+name = "default"
+# Every stage writes under this directory, one subdirectory per stage.
+# A relative path is relative to the repository root.
+work_dir = "work"
+
+[source]
+# The Logan v1.1 selfloops archive: every circular contig Logan assembled from
+# the SRA, one record per circle per sequencing run. An s3:// or http(s)://
+# URL is downloaded; any other value is taken as a local path and linked.
+url = "s3://serratus-rayan/beetles/logan_feb12_run/circles-concat/selfloops.v1.1.fa.zst"
+# What to call the archive once fetched.
+filename = "selfloops.fa.zst"
+# The size the download must have to count as complete. 0 disables the check.
+expected_bytes = 89258393740
+
+[kraken]
+# Path to a Kraken2 database. Stage 1 keeps every record the database cannot
+# name. The published runs used a core_nt build; see docs/dependencies.md.
+database = ""
+# Kraken2's --confidence: the fraction of a record's k-mers that must support
+# a classification for the record to count as classified.
+confidence = 0.1
+
+[overlap]
+# Logan assembles at k = 31, so a closed circle is written with its first
+# k - 1 = 30 nt repeated at its end. Stage 2 trims that many bases from
+# records it classifies as circular.
+length = 30
+
+[length]
+# Stage 3 keeps records whose trimmed length is within these bounds, inclusive.
+# The floor is biological: nothing viroid-like is that small. The ceiling is a
+# workaround: RNAfold stops, rather than skips, on sequences past its range.
+min_nt = 200
+max_nt = 6000
+
+[screen]
+# Where the external rod classifier (the Lebowski bundle) is unpacked. Stage 4
+# reads Scripts/run_pipeline.py, rodnotrod_model/model.pkl and CM/*.cm from it.
+lebowski_dir = "Lebowski"
+
+[shortlist]
+# Tier 2 of the shortlist: rods with ribozymes on both strands but no
+# corroborated locus, with confidence at or above this floor, ranked by
+# confidence and cut to this many rows.
+tier2_min_confidence = 0.8
+tier2_max_rows = 2000
+
+[compute]
+# Nothing in this section changes the result. Size it to your machine.
+# stage 1: the source is cut into parts of this many records, classified
+# records_per_part at a time by kraken_workers processes of kraken_threads each.
+# Kraken2 memory-maps its database, so the workers share one copy of it.
+records_per_part = 45000000
+kraken_workers = 1
+kraken_threads = 8
+# stages 2 and 3: parts labelled and filtered in parallel
+part_workers = 4
+# stage 4: the in-range records are re-cut into chunks of this many records,
+# screened screen_workers at a time, each with screen_threads for RNAfold and
+# cmsearch. The classifier folds screen_batch_size records per batch.
+records_per_chunk = 1000000
+screen_workers = 2
+screen_threads = 8
+screen_batch_size = 50000
+# stage 7: the rods are dealt into dotbracket_parts files, folded
+# dotbracket_workers at a time with one single-threaded RNAfold each.
+dotbracket_parts = 64
+dotbracket_workers = 8
