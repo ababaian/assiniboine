@@ -16,7 +16,6 @@ number on the way out and the parts are merged back on that number.
 
 from __future__ import annotations
 
-import csv
 import heapq
 import re
 from array import array
@@ -24,7 +23,7 @@ from contextlib import ExitStack
 from pathlib import Path
 from typing import Iterable, Iterator, NamedTuple
 
-from assiniboine.sequences import open_text
+from assiniboine.sequences import open_text, read_fasta
 
 OUTPUT_COLUMNS = ("sample_name", "length", "mfe", "dot_bracket")
 
@@ -50,12 +49,11 @@ class DotBracketError(Exception):
 # ---------------------------------------------------------------------------
 
 
-def read_lengths(rods_csv: str | Path) -> array:
-    """First pass over ``rods.csv``: just the length of every rod."""
+def read_lengths(rods_fa: str | Path) -> array:
+    """First pass over ``rods.fa``: just the length of every rod."""
     lengths = array("L")
-    with open(rods_csv, newline="") as stream:
-        for row in csv.DictReader(stream):
-            lengths.append(int(row["length"]))
+    for record in read_fasta(rods_fa):
+        lengths.append(len(record.sequence))
     return lengths
 
 
@@ -68,7 +66,7 @@ def assign_parts(lengths: array, n_parts: int) -> array:
     return part_of
 
 
-def split_rods(rods_csv: str | Path, parts_dir: str | Path, n_parts: int) -> int:
+def split_rods(rods_fa: str | Path, parts_dir: str | Path, n_parts: int) -> int:
     """Write ``parts_dir/part_NNN.fa`` files for RNAfold. Returns the rod count.
 
     Each header is ``>index|sample_name|length`` so the structure can be
@@ -76,13 +74,12 @@ def split_rods(rods_csv: str | Path, parts_dir: str | Path, n_parts: int) -> int
     """
     parts_dir = Path(parts_dir)
     parts_dir.mkdir(parents=True, exist_ok=True)
-    part_of = assign_parts(read_lengths(rods_csv), n_parts)
+    part_of = assign_parts(read_lengths(rods_fa), n_parts)
 
     with ExitStack() as stack:
         streams = [stack.enter_context(open(parts_dir / f"part_{part:03d}.fa", "w")) for part in range(n_parts)]
-        with open(rods_csv, newline="") as stream:
-            for index, row in enumerate(csv.DictReader(stream)):
-                streams[part_of[index]].write(f">{index}|{row['sample_name']}|{row['length']}\n{row['sequence']}\n")
+        for index, record in enumerate(read_fasta(rods_fa)):
+            streams[part_of[index]].write(f">{index}|{record.id}|{len(record.sequence)}\n{record.sequence}\n")
     return len(part_of)
 
 

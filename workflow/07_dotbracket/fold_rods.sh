@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Stage 7: fold every rod again and keep its dot-bracket structure.
 #
-#   in   $WORK_DIR/05_results/rods.csv
+#   in   $WORK_DIR/05_results/rods.fa
 #   out  $WORK_DIR/07_dotbracket/rods_dotbracket.tsv.zst   sample_name, length, mfe, dot_bracket
 #
 # Stage 4 keeps only numbers derived from each fold. This stage refolds the
@@ -16,7 +16,7 @@
 
 source "$(dirname "$0")/../common.sh"
 
-RODS=$WORK_DIR/05_results/rods.csv
+RODS=$WORK_DIR/05_results/rods.fa
 OUT=$WORK_DIR/07_dotbracket
 RESULT=$OUT/rods_dotbracket.tsv.zst
 
@@ -60,5 +60,5 @@ done_count=$(ls "$OUT"/folded/part_*.done 2> /dev/null | wc -l)
 
 log "collecting the structures in rods.csv order"
 assiniboine dotbracket collect "$OUT"/folded/part_*.tsv --output "$RESULT" \
-    --expected "$(( $(wc -l < "$RODS") - 1 ))"
+    --expected "$(grep -c '^>' "$RODS")"
 mark_done "$OUT"

@@ -92,8 +92,11 @@ are reported but not used.
 
 ## Stage 5: `05_results/`
 
-`rods.csv`, `rods_with_ribozyme.csv` and `shortlist.csv` share these
-columns:
+`rods.fa` holds every rod's sequence as screened (upper case, overlap
+trimmed) under its original Logan selfloops header, in `rods.csv` row order.
+
+`rods.csv`, `rods_with_ribozyme.csv` and `shortlist.csv` hold no sequences
+and share these columns:
 
 | column | meaning |
 |---|---|
@@ -101,7 +104,6 @@ columns:
 | `run` | the SRA run |
 | `closure` | the stage 2 class |
 | the 40 remaining screen columns | as above, each once |
-| `sequence` | the screened sequence, after the trim |
 
 `shortlist.csv` has `tier` (1 or 2) as its first column. `summary.txt`
 gives the counts, including how many tier 2 candidates the row cap

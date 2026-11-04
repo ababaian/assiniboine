@@ -7,8 +7,10 @@ memory, and lets the ids be compared record by record as a check.
 
 Three tables come out:
 
+rods.fa
+    every rod's sequence under its original Logan selfloops header
 rods.csv
-    every record the classifier called ``rod``, with its sequence
+    every record the classifier called ``rod``, features only (no sequence)
 rods_with_ribozyme.csv
     the rods that carry at least one ribozyme hit
 shortlist.csv
@@ -35,7 +37,7 @@ from pathlib import Path
 from typing import Iterator
 
 from assiniboine.sequences import Record, read_fasta
-from assiniboine.topology import parse_label
+from assiniboine.topology import parse_label, strip_label
 
 DEFAULT_TIER2_MIN_CONFIDENCE = 0.8
 DEFAULT_TIER2_MAX_ROWS = 2000
@@ -101,7 +103,6 @@ def rod_table_row(record: Record, screen_row: dict[str, str]) -> dict[str, str]:
     for name, value in screen_row.items():
         if name != "sample_name":
             row[name] = value
-    row["sequence"] = record.sequence
     return row
 
 
@@ -173,7 +174,7 @@ def reduce_screen(
     screened = 0
     rods = 0
 
-    with open(out_dir / "rods.csv", "w", newline="") as rods_stream:
+    with open(out_dir / "rods.csv", "w", newline="") as rods_stream, open(out_dir / "rods.fa", "w") as fasta_stream:
         writer = None
         for chunk_fasta, result_csv in chunk_pairs:
             for record, screen_row in read_screened(chunk_fasta, result_csv):
@@ -186,6 +187,7 @@ def reduce_screen(
                     writer = csv.DictWriter(rods_stream, fieldnames=columns)
                     writer.writeheader()
                 writer.writerow(row)
+                fasta_stream.write(f">{strip_label(record.header)}\n{record.sequence}\n")
                 rods += 1
                 if has_ribozyme(row):
                     with_ribozyme.append(row)

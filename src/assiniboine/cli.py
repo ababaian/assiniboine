@@ -267,7 +267,7 @@ def build_parser() -> argparse.ArgumentParser:
     p = commands.add_parser("dotbracket", help="stage 7: refold the rods and keep their structures")
     actions = p.add_subparsers(dest="action", required=True, metavar="<action>")
     q = actions.add_parser("split", help="deal the rods into balanced FASTA parts for RNAfold")
-    q.add_argument("rods", help="stage 5 rods.csv")
+    q.add_argument("rods", help="stage 5 rods.fa")
     q.add_argument("parts_dir")
     q.add_argument("--parts", type=int, required=True, help="how many parts to write")
     q.set_defaults(func=cmd_dotbracket_split)
