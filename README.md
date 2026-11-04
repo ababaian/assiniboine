@@ -63,7 +63,7 @@ wget https://s3.amazonaws.com/assiniboine/fa/rod/ROD-1K_v1.1.fa.zst
  0  fetch the source data
  1  Kraken2 filter          drop every record matching reference database
  2  circular overlap        label how each record closes; trim the 30 nt overlap
- 3  length filter           keep [200,6,000] nt contigs
+ 3  length filter           keep [200 to 6000] nt contigs
  4  rod screen              fold, search for ribozymes, call rod or not (external classifier)
  5  results                 the rod tables and the shortlist
  6  package                 a record manifest that rebuilds stages 1 to 3, plus checksums
