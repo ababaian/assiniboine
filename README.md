@@ -36,6 +36,7 @@ S3 Bucket
 │         └────────── `ROD_v1.1.csv.zst`     # Assinibone features CSV
 ├── meta/             # SRA Meta-data
 │   └─── `SRA-metadata.parquet`              # SRA Run Info and Metadata
+│   └─── `ROD_v1.1_dotbracket.tsv.zst`       # RNAfold MFE and dotbracket
 └─────── README.md    # This README
 ```
 
