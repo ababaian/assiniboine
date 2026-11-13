@@ -18,7 +18,7 @@ S3 Bucket
 
 ⦿ s3://assiniboine/
 ├── fa/               # Source Fasta Files
-│   └─── ctrl/        # Potentially useful GenBank sequence collections
+│   └─── control/     # Potentially useful GenBank sequence collections
 │         └────────── `*.fa`                # Fasta file
 │         └────────── `*.csv`               # assiniboine pipeline features
 │
