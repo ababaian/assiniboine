@@ -33,6 +33,7 @@ S3 Bucket
 │         └────────── `ROD-1M_v1.1.fa.zst`   # 1M randomly selected ROD
 │         └────────── `ROD-100K_v1.1.fa.zst` # 100K randomly selected ROD1M
 │         └────────── `ROD-1K_v1.1.fa.zst`   # 1K   randomly selected ROD100K
+│         └────────── `ROD_v1.1.reorf.zst`   # RCE calculated ORFs for ROD
 │         └────────── `ROD_v1.1.csv.zst`     # Assinibone features CSV
 ├── meta/             # SRA Meta-data
 │   └─── `SRA-metadata.parquet`              # SRA Run Info and Metadata
@@ -54,6 +55,17 @@ wget https://s3.amazonaws.com/assiniboine/fa/ctrl/obelisk_zheludev.fa
 
 wget https://s3.amazonaws.com/assiniboine/fa/rod/ROD-1K_v1.1.fa.zst
 
+```
+
+### Notes
+```{bash}
+## `ROD_v1.1.reorf.zst`
+## reorf calculation was performed with custom circular-aware ORF caller
+## continuous ORFs are annotated with the following codes
+# Ce     Continuous even (meaning ORF is multiple of 3 nt), has START
+# Cem    Continuous even (meaning ORF is multiple of 3 nt), no START
+# Co     Continuous odd (meaning ORF is not multiple of 3 nt so wraps around >1 times), has START
+# Com    Continuous odd (meaning ORF is not multiple of 3 nt so wraps around >1 times), no START
 ```
 
 ## Pipeline
