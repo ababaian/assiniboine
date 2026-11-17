@@ -24,6 +24,7 @@ S3 Bucket
 │
 │   └─── lsc/         # Logan Simple Circles 
 │         └────────── `LSC_v1.1.fa.zst`      # Complete Logan self-loops
+│         └────────── `LSC-11M_v1.1.fa.zst`  # 11.3M random subset of LSC
 │         └────────── `LSC-1M_v1.1.fa.zst`   # 1M random subset LSC
 │         └────────── `LSC-100K_v1.1.fa.zst` # 100K random subset LSC1M
 │         └────────── `LSC-1K_v1.1.fa.zst`   # 1K random subset LSC1M
