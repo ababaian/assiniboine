@@ -39,6 +39,7 @@ S3 Bucket
 ├── meta/             # SRA Meta-data
 │   └─── `SRA-metadata.parquet`              # SRA Run Info and Metadata
 │   └─── `ROD_v1.1_dotbracket.tsv.zst`       # RNAfold MFE and dotbracket
+│   └─── `ROD_dust_masked_gt25pct.labels`    # Low-complexity contigs blacklist
 └─────── README.md    # This README
 ```
 
@@ -68,11 +69,14 @@ wget https://s3.amazonaws.com/assiniboine/fa/rod/ROD-1K_v1.1.fa.zst
 # Co     Continuous odd (meaning ORF is not multiple of 3 nt so wraps around >1 times), has START
 # Com    Continuous odd (meaning ORF is not multiple of 3 nt so wraps around >1 times), no START
 ```
+```{bash}
+# Low-complexity blacklist command
+./bin/dustmasker -in uniques.fa -hard_masking -outfmt fasta -out ROD_dust_masked_gt25pct.labels
+```
 
 
 ```{bash}
 # File contents of s3://assiniboine/fa/control/
-
 aws s3 ls s3://assiniboine/fa/control/
 2026-11-03 21:25:49    2937889 ambivirus_SerratusID90.fa
 2026-11-03 21:25:49       5595 ambivirus_features_gb260921.csv
@@ -110,7 +114,6 @@ aws s3 ls s3://assiniboine/fa/control/
 2026-11-03 21:26:27     932092 satellite_gb260921.fa
 2026-11-03 21:26:27       2536 zetavirus_features_gb260921.csv
 2026-11-03 21:26:28       4078 zetavirus_gb260921.fa
-
 ```
 
 
