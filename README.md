@@ -49,10 +49,10 @@ S3 Bucket
 aws s3 ls s3://assiniboine/fa/
 
 ## AWS CLI Download
-aws s3 cp s3://assiniboine/fa/ctrl/obelisk_zheludev.fa ./
+aws s3 cp s3://assiniboine/fa/control/obelisk_zheludev.fa ./
 
 ## WGET Download
-wget https://s3.amazonaws.com/assiniboine/fa/ctrl/obelisk_zheludev.fa
+wget https://s3.amazonaws.com/assiniboine/fa/control/obelisk_zheludev.fa
 
 wget https://s3.amazonaws.com/assiniboine/fa/rod/ROD-1K_v1.1.fa.zst
 
