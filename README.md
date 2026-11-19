@@ -79,13 +79,26 @@ wget https://s3.amazonaws.com/assiniboine/fa/rod/ROD-1K_v1.1.fa.zst
 ```{bash}
 # File contents of s3://assiniboine/fa/control/
 aws s3 ls s3://assiniboine/fa/control/
+
+# VLE
 2026-11-03 21:25:49    2937889 ambivirus_SerratusID90.fa
 2026-11-03 21:25:49       5595 ambivirus_features_gb260921.csv
 2026-11-03 21:25:49      82544 ambivirus_gb260921.fa
-2026-11-03 21:25:49    2725626 anellovirus_features_gb260921.csv
-2026-11-03 21:25:49   25154568 anellovirus_gb260921.fa
 2026-11-03 21:25:49    2031356 avsunviroid_features_gb260921.csv
 2026-11-03 21:25:49    3456545 avsunviroid_gb260921.fa
+2026-11-03 21:25:59    4402505 obelisk_features_zheludev.csv
+2026-11-03 21:26:02   15077004 obelisk_zheludev.fa
+2026-11-03 21:26:14    1720283 pospiviroid_features_gb260921.csv
+2026-11-03 21:26:21    3258006 pospiviroid_gb260921.fa
+2026-11-03 21:26:24        847 retroviroid_features_gb260921.csv
+2026-11-03 21:26:25     278567 ribozyvirus_features_gb260921.csv
+2026-11-03 21:26:26    1613206 ribozyvirus_gb260921.fa
+2026-11-03 21:26:27       2536 zetavirus_features_gb260921.csv
+2026-11-03 21:26:28       4078 zetavirus_gb260921.fa
+
+# Not VLE
+2026-11-03 21:25:49    2725626 anellovirus_features_gb260921.csv
+2026-11-03 21:25:49   25154568 anellovirus_gb260921.fa
 2026-11-03 21:25:49    2849818 circovirus_features_gb260921.csv
 2026-11-03 21:25:49   20076944 circovirus_gb260921.fa
 2026-11-03 21:25:49    5767168 geminivirus_features_gb260921.csv
@@ -98,23 +111,14 @@ aws s3 ls s3://assiniboine/fa/control/
 2026-11-03 21:25:57  268123564 humancirc_gb260921.fa
 2026-11-03 21:25:57    1039565 nanovirus_features_gb260921.csv
 2026-11-03 21:25:59    4487110 nanovirus_gb260921.fa
-2026-11-03 21:25:59    4402505 obelisk_features_zheludev.csv
-2026-11-03 21:26:02   15077004 obelisk_zheludev.fa
 2026-11-03 21:26:02    2413326 papillomavirus_features_gb260921.csv
 2026-11-03 21:26:06   46750263 papillomavirus_gb260921.fa
 2026-11-03 21:26:13      21223 plasmidsub7000_features_gb260921.csv
 2026-11-03 21:26:13   62604994 plasmidsub7000_gb260921.fa
 2026-11-03 21:26:13     924898 polyomavirus_features_gb260921.csv
 2026-11-03 21:26:14   14760466 polyomavirus_gb260921.fa
-2026-11-03 21:26:14    1720283 pospiviroid_features_gb260921.csv
-2026-11-03 21:26:21    3258006 pospiviroid_gb260921.fa
-2026-11-03 21:26:24        847 retroviroid_features_gb260921.csv
-2026-11-03 21:26:25     278567 ribozyvirus_features_gb260921.csv
-2026-11-03 21:26:26    1613206 ribozyvirus_gb260921.fa
 2026-11-03 21:26:27     277126 satellite_features_gb260921.csv
 2026-11-03 21:26:27     932092 satellite_gb260921.fa
-2026-11-03 21:26:27       2536 zetavirus_features_gb260921.csv
-2026-11-03 21:26:28       4078 zetavirus_gb260921.fa
 ```
 
 
