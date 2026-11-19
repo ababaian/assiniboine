@@ -131,6 +131,8 @@ aws s3 ls s3://assiniboine/fa/control/
  6  package                 a record manifest that rebuilds stages 1 to 3, plus checksums
  7  dot-bracket             the folded structure of every rod
 ```
+![Assiniboine pipeline](docs/assiniboine_pipeline_flow.png)
+
 
 ## Quick start
 
