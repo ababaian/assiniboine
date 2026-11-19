@@ -37,7 +37,8 @@ S3 Bucket
 │         └────────── `ROD_v1.1.reorf.zst`   # RCE calculated ORFs for ROD
 │         └────────── `ROD_v1.1.csv.zst`     # Assinibone features CSV
 ├── meta/             # SRA Meta-data
-│   └─── `SRA-metadata.parquet`              # SRA Run Info and Metadata
+│   └─── `SRA-metadata.parquet`              # SRA Run Metadata (All Runs)
+│   └─── `ROD_v1.1_SRARunInfo.csv.zst`       # SRA Run Metadata (ROD v1.1 subset)
 │   └─── `ROD_v1.1_dotbracket.tsv.zst`       # RNAfold MFE and dotbracket
 │   └─── `ROD_dust_masked_gt25pct.labels`    # Low-complexity contigs blacklist
 └─────── README.md    # This README
